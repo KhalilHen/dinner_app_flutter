@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "580866716080",
+    "project_id": "dinner-app-18bdc",
+    "storage_bucket": "dinner-app-18bdc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580866716080:android:82f0bf616127e4435de675",
+        "android_client_info": {
+          "package_name": "com.example.dinnerapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBERiprqTlULWCBsD6ONlstw8dbQayS3lU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
