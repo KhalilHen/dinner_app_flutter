@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+// import 'choose_meal.dart';
+// import 'package:beta_app/pages/choosemeal.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({Key? key});
@@ -22,6 +24,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
