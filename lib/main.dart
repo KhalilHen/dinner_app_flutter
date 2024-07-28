@@ -83,6 +83,17 @@ class _MainScreenState extends State<MainScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // TODO Delete this before pushing
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const Homepage(),
+                    ),
+                  );
+                },
+                child: Text('Shortcut to homepage'),
+              ),
               Title(
                 color: Colors.black,
                 child: Text(
@@ -144,8 +155,8 @@ class _MainScreenState extends State<MainScreen> {
                         // For another time
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey.shade400),
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(16.0)),
+                        backgroundColor: WidgetStateProperty.all(Colors.grey.shade400),
+                        padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
                       ),
                       child: const Text(
                         'Create account',
@@ -157,8 +168,8 @@ class _MainScreenState extends State<MainScreen> {
                     ElevatedButton(
                       onPressed: _login,
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(const Color(0xFF00FF00)),
-                        padding: MaterialStateProperty.all(const EdgeInsets.all(16.0)),
+                        backgroundColor: WidgetStateProperty.all(const Color(0xFF00FF00)),
+                        padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
                       ),
                       child: const Text(
                         'Login',
