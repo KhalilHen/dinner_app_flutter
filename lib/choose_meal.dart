@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart'; 
 
+import './dialogs/choose_meal_dialog.dart';
 class ChooseMealPage extends StatefulWidget {
   const ChooseMealPage({Key? key}) : super(key: key);
 
@@ -10,6 +11,12 @@ class ChooseMealPage extends StatefulWidget {
 
 class _ChooseMealPageState extends State<ChooseMealPage> {
   int _currentIndex = 0;
+ var  dinnermeal = [];
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +51,7 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
             height: MediaQuery.of(context).size.height * 0.7,
            width: MediaQuery.of(context).size.width * 0.9,
 child:  Column(
-  mainAxisAlignment: MainAxisAlignment.center,
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
   crossAxisAlignment: CrossAxisAlignment.center,
   children: [
 
@@ -52,16 +59,25 @@ child:  Column(
 
 
   Container(
-
+    height: MediaQuery.of(context).size.height * 0.2,
 child: Column(
-
+ mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  crossAxisAlignment: CrossAxisAlignment.center,
 children: [
   Text(' \$title'),
 
 
 
 
-ElevatedButton(onPressed: null,
+ElevatedButton( onPressed: () {
+  
+  
+ showDialog(context: context, builder: (context) {
+
+return ChooseMealDialog();
+
+ } ); 
+},
 
     // style: ElevatedButton.styleFrom(
     //                     foregroundColor: Colors.green,
