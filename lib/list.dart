@@ -1,23 +1,21 @@
-import 'package:flutter/material.dart';
-import 'homepage.dart'; 
+import 'package:flutter/material.dart'; 
+import 'homepage.dart';
+import 'choose_meal.dart';
+import 'firebase_options.dart';
+import './dialogs/create_list_dialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
 
-import './dialogs/choose_meal_dialog.dart';
-import 'list.dart';
-class ChooseMealPage extends StatefulWidget {
-  const ChooseMealPage({Key? key}) : super(key: key);
+
+class ListPage extends StatefulWidget {
+  const ListPage({Key? key}) : super(key: key);
 
   @override
-  _ChooseMealPageState createState() => _ChooseMealPageState();
+  _ListPageState createState() => _ListPageState();
 }
 
-class _ChooseMealPageState extends State<ChooseMealPage> {
-  int _currentIndex = 0;
- var  dinnermeal = [];
-
-
-
-
-
+class _ListPageState extends State<ListPage> {
+  int _currentIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +28,6 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
           'Homepage',
           style: TextStyle(color: Colors.black),
         ),
-
-
-
         actions: [
           IconButton(
             onPressed: () {
@@ -48,81 +43,34 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
           ),
         ],
       ),
-          body: Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-           width: MediaQuery.of(context).size.width * 0.9,
-child:  Column(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
+    
+      body: Wrap (
 
-    Text('Choose Meal Page', style: TextStyle(fontSize: 20),),
+        children: [
 
+          Row(
 
-  Container(
-    height: MediaQuery.of(context).size.height * 0.2,
-child: Column(
- mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  crossAxisAlignment: CrossAxisAlignment.center,
-children: [
-  Text(' \$title'),
+///Here for each every list
 
+          )
+        ],
+     
 
+      ),
+floatingActionButton: FloatingActionButton(
 
-
-ElevatedButton( onPressed: () {
-  
-  
- showDialog(context: context, builder: (context) {
-
-return ChooseMealDialog();
-
- } ); 
+onPressed: () {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return CreateListDialog();
+    },
+  );
 },
-
-    // style: ElevatedButton.styleFrom(
-    //                     foregroundColor: Colors.green,
-    //                   ),
-
-
-                      style: ButtonStyle(
-                       backgroundColor: MaterialStateProperty.all(Colors.green),
-                    ),
- child: Text('Click here to choose a meal', 
-style: 
-TextStyle(               
-   color: Colors.black,
-  
+child: Icon(Icons.add),
 
 ),
-
-)),
-
-// Row(
-//   children: [
-
-//     ElevatedButton(onPressed: null, child: Text('cane')),
-
-//         ElevatedButton(onPressed: null, child: Text('')),
-
-
-//     ElevatedButton(onPressed: null, child: Text('')),
-
-//   ],
-
-// ),
-],
-
-),
-
-  )
-
-  ],
-),
-
-          ),
-
-      bottomNavigationBar: BottomNavigationBar(
+           bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.grey,
         currentIndex: _currentIndex,
         onTap: (index) {

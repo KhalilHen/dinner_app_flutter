@@ -56,15 +56,15 @@ width: 300,
  
 child: Text(
  
-if(pressed == true) {
+// if(pressed == true) {
  
-dinnermeal++;
+// dinnermeal++;
  
-}
+// }
 
  
-else {
-}
+// else {
+// }
   '$meals[i]',
   
 

@@ -2,7 +2,7 @@ import 'package:dinnerapp/choose_meal.dart';
 import 'package:flutter/material.dart';
 // import 'choose_meal.dart';
 // import 'package:beta_app/pages/choosemeal.dart';
-
+import 'list.dart';
 class Homepage extends StatelessWidget {
   const Homepage({Key? key});
 
@@ -128,7 +128,11 @@ Navigator.of(context).pushReplacement(
               );
               break;
             case 2:
-              // Handle Lists tap
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ListPage(),
+                ),
+              );
               break;
           }
         },
