@@ -10,13 +10,27 @@ class ChooseMealDialog extends StatefulWidget {
 }
 
 class _ChooseMealDialogState extends State<ChooseMealDialog> {
-final    int mealIndex = 0;
+    int mealIndex = 0;
+int index = 0;
+
+bool pressed = false;
+
+List <String> meals = [ 'rice', 'beans', 'spaghetti', 'yam', 'potato', 'plantain', 'moi moi'];
+
+var test = [];
 
 
-  var  dinnermeal = [];
+// List meals.add('rice');
+void increseIndex() {
+
+mealIndex++;
+}
+
+  var  dinnermeal = ['rice', 'beans', 'spaghetti', 'yam', 'potato', 'plantain', 'moi moi'];
 
 
 void addItems() {
+  var  dinnermeal = [];
 
   dinnermeal.add('rice');
 dinnermeal.add('beans');
@@ -38,19 +52,34 @@ Container(
 
 height: 100,
 width: 300,
-color: Colors.green,
+// color: Colors.green,
+ 
+child: Text(
+ 
+if(pressed == true) {
+ 
+dinnermeal++;
+ 
+}
 
-child: ListView.builder(
-  itemCount: dinnermeal.length,
-  itemBuilder: (context, index) {
-    return ListTile(
-      title: Text(dinnermeal[index]),
-    );
-  },
+ 
+else {
+}
+  '$meals[i]',
+  
 
 
 
-),
+    ),
+
+
+
+  
+
+
+
+
+        
 ),
 //
 //
@@ -91,8 +120,12 @@ child: ListView.builder(
   ),
 
   ElevatedButton(onPressed:() {
-    
-print(dinnermeal[mealIndex]);
+addItems();
+    increseIndex();
+
+ print(dinnermeal[0]);
+ print(dinnermeal[1]);
+    bool pressed = true;
   }, child: Text('Next'))
  ],
 
