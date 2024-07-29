@@ -14,18 +14,45 @@ class CreateListDialog extends StatefulWidget {
 }
 
 class _CreateListDialogState extends State<CreateListDialog> {
-  final listNameController = TextEditingController();
+  final ListTitleController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
 final db = FirebaseFirestore.instance;
 
+
+
   Future<void> _createList() async {
     if (_key.currentState!.validate()) {
 
+final  title =  ListTitleController.text;
+
+      
+CollectionReference  createListTitle = FirebaseFirestore.instance.collection('list');
+try {
+
+createListTitle.add({
+
+  'title': title,
+
+  
+}).then((__)
 
 
+{
+Navigator.of(context).pop();
+ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Created list: $title')));
 
-CollectionReference  list = FirebaseFirestore.instance.collection('lists');
+
+}
+);
+}
+
+ catch (e) {
+        print('Sign up failed: $e');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up failed: $e')));
+      }
+
+
 
 
       Navigator.of(context).pop();
@@ -44,7 +71,7 @@ CollectionReference  list = FirebaseFirestore.instance.collection('lists');
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
-              controller: listNameController,
+              controller: ListTitleController,
               decoration: const InputDecoration(
                 labelText: 'List name',
               ),

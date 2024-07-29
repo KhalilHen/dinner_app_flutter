@@ -17,6 +17,17 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   int _currentIndex = 2;
 
+
+// db = FirebaseFirestore.instance;
+
+void retrieveList() async {
+
+
+
+
+}
+
+
   @override
   Widget build(BuildContext context) {
     final primaryBackgroundColor = Theme.of(context).primaryColor;
@@ -44,18 +55,44 @@ class _ListPageState extends State<ListPage> {
         ],
       ),
     
-      body: Wrap (
-
+      body: SingleChildScrollView(
+        child: Wrap (
+        
+          children: [
+        
+            Row(
         children: [
 
-          Row(
+     GridView(
 
-///Here for each every list
 
-          )
+
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+
+
+       children: [
+
+      Card.outlined(
+        
+       
+       child: Text('Title'),          ),
+       ], 
+     )
+        
         ],
-     
-
+        
+          
+        ///Here for each every list
+        
+            )
+          ],
+             
+        
+        ),
       ),
 floatingActionButton: FloatingActionButton(
 
