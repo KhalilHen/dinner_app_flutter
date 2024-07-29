@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart'; 
 import 'homepage.dart';
 import 'choose_meal.dart';
@@ -16,14 +17,26 @@ class ListPage extends StatefulWidget {
 
 class _ListPageState extends State<ListPage> {
   int _currentIndex = 2;
+final db = FirebaseFirestore.instance;
+
 
 
 // db = FirebaseFirestore.instance;
 
 void retrieveList() async {
 
+var collection =  FirebaseFirestore.instance.collection('list');
+var querySnapshot = await collection.get();
+for (var queryDocumentSnapshot in querySnapshot.docs) {
+  print(queryDocumentSnapshot.data());
+}
+try {
 
 
+}
+catch (e) {
+  print('Failed to retrieve list: $e');
+}
 
 }
 
@@ -54,46 +67,74 @@ void retrieveList() async {
           ),
         ],
       ),
-    
-      body: SingleChildScrollView(
-        child: Wrap (
+ body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: FirebaseFirestore.instance.collection('list').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            //return Center(child: CircularProgressIndicator());
+          return Wrap(
+
+children: [
+  Card()
+],
+
+          );
+          }
+          if (snapshot.hasData) {
+            final docs = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: docs.length,
+              itemBuilder: (context, index) {
+                final data = docs[index].data();
+                return ListTile(
+                  title: Text(data['title']),
+                );
+              },
+            );
+          }
+          return Center(child: Text('No data found'));
+        },
+      ),
+    //   body: SingleChildScrollView(
+    //     child: Wrap (
         
-          children: [
+    //       children: [
         
-            Row(
-        children: [
+    //         Row(
+    //     children: [
 
-     GridView(
-
-
-
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
+    //  GridView(
 
 
-       children: [
 
-      Card.outlined(
+    //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    //       crossAxisCount: 2,
+    //       crossAxisSpacing: 10,
+    //       mainAxisSpacing: 10,
+    //     ),
+
+
+    //    children: [
+
+    //   Card.outlined(
         
        
-       child: Text('Title'),          ),
-       ], 
-     )
+    //    child: Text('Title'),          ),
+    //    ], 
+    //  )
         
-        ],
+    //     ],
         
           
-        ///Here for each every list
+    //     ///Here for each every list
         
-            )
-          ],
+    //         )
+    //       ],
              
         
-        ),
-      ),
+    //     ),
+    //   ),
 floatingActionButton: FloatingActionButton(
 
 onPressed: () {
