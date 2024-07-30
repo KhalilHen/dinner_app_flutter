@@ -67,35 +67,51 @@ catch (e) {
           ),
         ],
       ),
- body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection('list').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           if (snapshot.connectionState == ConnectionState.waiting) {
-            //return Center(child: CircularProgressIndicator());
-          return Wrap(
-
-children: [
-  Card()
-],
-
-          );
+            return Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasData) {
             final docs = snapshot.data!.docs;
-            return ListView.builder(
+            return GridView.builder(
               itemCount: docs.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+              ),
               itemBuilder: (context, index) {
-                final data = docs[index].data();
-                return ListTile(
-                  title: Text(data['title']),
-                );
+                                final data = docs[index].data();
+
+                                
+    return Card( 
+      
+child: Column(
+  
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+
+        
+children: [
+
+  Text(data['title'] ?? 'No title'),
+],
+  
+)
+
+// shape: RoundedRectangleBorder(),
+
+    );
               },
             );
           }
           return Center(child: Text('No data found'));
         },
       ),
+
+      
+
     //   body: SingleChildScrollView(
     //     child: Wrap (
         
