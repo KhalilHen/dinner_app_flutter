@@ -116,7 +116,9 @@ mainAxisAlignment: MainAxisAlignment.start,
  Text(data['title'] ?? 'No title',
   
   
-
+  style:  TextStyle(
+    decoration: TextDecoration.underline, 
+  )
   
   
   ),
