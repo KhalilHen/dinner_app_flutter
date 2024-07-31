@@ -20,8 +20,10 @@ class _ListPageState extends State<ListPage> {
 final db = FirebaseFirestore.instance;
 
 
+// TODO Fix this later
+    // final screenWidth = mediaQuery.size.width;
 
-// db = FirebaseFirestore.instance;
+
 
 void retrieveList() async {
 
@@ -86,22 +88,57 @@ catch (e) {
 
                                 
     return Card( 
-      
+
+        margin: EdgeInsets.all(15.0), //I am considering using it 
+
+
+  color: Colors.white,
+
+elevation: 10.0,
+
+  shadowColor: Colors.black,
+    shape: RoundedRectangleBorder(
+    borderRadius: BorderRadius.circular(15.0),
+  ),
+
+child: GestureDetector(
+  onTap: () {
+
+//Viewing list logic
+
+  },
+
 child: Column(
-  
-        mainAxisAlignment: MainAxisAlignment.start,
+mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+
+ Text(data['title'] ?? 'No title',
+  
+  
+
+  
+  
+  ),
+
+  // if (screenWidth > 614 )
+  // Text(data['description'] ?? 'No description'), //Think not gonna use it for phones as there for too less space 
+
+  
+
+
+    ],
+),
+
+),
+
+
+  
+        
 
         
-children: [
 
-  Text(data['title'] ?? 'No title'),
-],
-  
-)
-
-// shape: RoundedRectangleBorder(),
-
+ 
     );
               },
             );
@@ -110,47 +147,6 @@ children: [
         },
       ),
 
-      
-
-    //   body: SingleChildScrollView(
-    //     child: Wrap (
-        
-    //       children: [
-        
-    //         Row(
-    //     children: [
-
-    //  GridView(
-
-
-
-    //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    //       crossAxisCount: 2,
-    //       crossAxisSpacing: 10,
-    //       mainAxisSpacing: 10,
-    //     ),
-
-
-    //    children: [
-
-    //   Card.outlined(
-        
-       
-    //    child: Text('Title'),          ),
-    //    ], 
-    //  )
-        
-    //     ],
-        
-          
-    //     ///Here for each every list
-        
-    //         )
-    //       ],
-             
-        
-    //     ),
-    //   ),
 floatingActionButton: FloatingActionButton(
 
 onPressed: () {
