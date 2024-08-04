@@ -49,7 +49,7 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
       List<Meal> meals  = mealsJson
           .map((mealJson) => Meal.fromJson(mealJson))
           .toList();
-      return meals;
+      return meals[0];
 
 } else {
   throw Exception('Failed to load meal');
@@ -69,19 +69,7 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
           'Homepage',
           style: TextStyle(color: Colors.black),
         ),
-        // body: FutureBuilder<Meal>(
-        //   future: fetchMeals(),
-        //   builder: (context, snapshot) {
-        //     if (snapshot.hasData) {
-        //       return Text(snapshot.data!.strMeal);
-        //     } else if (snapshot.hasError) {
-        //       return Text('${snapshot.error}');
-        //     }
-
-        //     return const CircularProgressIndicator();
-        //   },
-        // ),
-
+  
 
 
         actions: [
@@ -99,51 +87,112 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
           ),
         ],
       ),
-      body: Container(
-     
-          height: MediaQuery.of(context).size.height * 0.7,
-          width: MediaQuery.of(context).size.width * 0.9,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Welcome \$user", style: TextStyle(
-                fontSize: 24,
-              ),),
-              Text(
-                'Today\'s suggestion:',
-                style: TextStyle(
-                  fontSize: 32,
+      body: FutureBuilder<Meal>(
+
+        future: fetchMeals(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Today\'s suggestion:',
+                        style: TextStyle(
+                          fontSize: 32,
+                        ),
+                      ),
+                      Text(snapshot.data!.strMeal, style: 
+                      TextStyle(
+                        fontSize: 24,
+                      ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 225,
+                        width: 225,
+                        color: Colors.green,
+                        child: Image.network(snapshot.data!.strMealThumb),
+                      ),
+                      SizedBox(height: 10),
+                      Container(
+                        color: Colors.red,
+                        height: 50,
+                        width: 225,
+                        child: Text(snapshot.data!.strInstructions),
+                      )
+                    ],
+                  ),
                 ),
               ),
-              Text('Title', style: 
-              TextStyle(
-                fontSize: 24,
-              ),
-              ),
-    	  Container(
-          alignment: Alignment.center,
-            height: 225,
-            width: 225,
-            color: Colors.green,
-// Here comes a image of a food item random selected
-          child: Image.asset('assets/images/food.jpg'),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+
+
+              child: Container(
+             
+            height: MediaQuery.of(context).size.height * 0.7,
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+        
+        
+        
+                
+                Text("Welcome \$user", style: TextStyle(
+                  fontSize: 24,
+                ),),
+                Text(
+                  'Today\'s suggestion:',
+                  style: TextStyle(
+                    fontSize: 32,
+                  ),
+                ),
+                Text('Error: ${snapshot.error}', style: 
+                TextStyle(
+                  fontSize: 24,
+                ),
+                ),
+                Container(
+            alignment: Alignment.center,
+              height: 225,
+              width: 225,
+              color: Colors.green,
+        // Here comes a image of a food item random selected
+            child: Image.asset('assets/images/food.jpg'),
+            
+          ),
+          SizedBox(height: 10), 
+          //Here comes the description
+          Container(
+        
+        color: Colors.red,
+            height: 50,
+              width: 225,
+            child: Text('Description'),
+        
+          )
+        
+        
+              ],
+            ),
           
         ),
-        SizedBox(height: 10), 
-        //Here comes the description
-        Container(
-
-color: Colors.red,
-          height: 50,
-            width: 225,
-          child: Text('Description'),
-
-        )
-
-
-            ],
-          ),
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
         
       ),
       bottomNavigationBar: BottomNavigationBar(
