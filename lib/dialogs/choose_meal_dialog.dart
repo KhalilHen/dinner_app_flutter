@@ -82,7 +82,10 @@ if(snapshot.hasData) {
 
   return Column(
     children: [
+
       Text(snapshot.data!.strMeal),
+
+      Text('Difficulty: ${snapshot.data!.strCategory}'),
       Image.network(snapshot.data!.strMealThumb),
     ],
   );
@@ -98,16 +101,7 @@ else {
  
 
 ),
-// if(pressed == true) {
- 
-// dinnermeal++;
- 
-// }
 
- 
-// else {
-// }
-  
 
 
         ],

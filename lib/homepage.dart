@@ -8,6 +8,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
 
+
+import 'dialogs/controllers.dart/fetch_controller.dart';  // Import the fetch controller
+
 class Homepage extends StatelessWidget {
   const Homepage({Key? key});
 
@@ -27,36 +30,17 @@ class HomeScreen extends StatefulWidget {
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
+}class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
+  late Future<Meal> _futureMeal; // Define Future as a state variable
 
+  final Controller _fetchController = Controller(); // Create an instance of FetchController
 
-
-
-Future<Meal> fetchMeals() async {
-
-final url =  Uri.parse('https://www.themealdb.com/api/json/v1/1/random.php');
-
-
-final response = await http.get(url);
-
-if (response.statusCode == 200) {      final data = json.decode(response.body);
-
-  
-   List<dynamic> mealsJson  = data['meals'];
-      List<Meal> meals  = mealsJson
-          .map((mealJson) => Meal.fromJson(mealJson))
-          .toList();
-      return meals[0];
-
-} else {
-  throw Exception('Failed to load meal');
-}
-}
-
-
+  @override
+  void initState() {
+    super.initState();
+    _futureMeal = _fetchController.fetchMeals(); // Initialize Future in initState
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +53,6 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
           'Homepage',
           style: TextStyle(color: Colors.black),
         ),
-  
-
-
         actions: [
           IconButton(
             onPressed: () {
@@ -88,11 +69,9 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
         ],
       ),
       body: SingleChildScrollView(
-        
         scrollDirection: Axis.vertical,
         child: FutureBuilder<Meal>(
-        
-          future: fetchMeals(),
+          future: _futureMeal, // Use the Future variable
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Center(
@@ -120,14 +99,11 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
                         width: 400,
                         color: Colors.green,
                         child: Image.network(snapshot.data!.strMealThumb),
-                        
-                        
                       ),
                       SizedBox(height: 10),
-                         Container(
-
-                          height: 400,
-                          width: 400,
+                      Container(
+                        height: 400,
+                        width: 400,
                         padding: EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -141,12 +117,12 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
                             ),
                           ],
                         ),
-                        child: Text(snapshot.data!.strInstructions,
-                        
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
-                        softWrap: true,
+                        child: Text(
+                          snapshot.data!.strInstructions,
+                          style: TextStyle(
+                            fontSize: 24,
+                          ),
+                          softWrap: true,
                         ),
                       )
                     ],
@@ -155,46 +131,36 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
               );
             } else if (snapshot.hasError) {
               return Center(
-        
-        
                 child: Container(
-               
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-          
-          
-          
-                  
-                  Text("Welcome \$user", style: TextStyle(
-                    fontSize: 24,
-                  ),),
-                  Text(
-                    'Today\'s suggestion:',
-                    style: TextStyle(
-                      fontSize: 32,
-                    ),
-                  ),
-                  Text('Error: ${snapshot.error}', style: 
-                  TextStyle(
-                    fontSize: 24,
-                  ),
-                  ),
-                  Container(
-              alignment: Alignment.center,
-                height: 225,
-                width: 225,
-                color: Colors.green,
-          // Here comes a image of a food item random selected
-              child: Image.asset('assets/images/food.jpg'),
-              
-            ),
-            SizedBox(height: 10), 
-            //Here comes the description
-               Container(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text("Welcome \$user", style: TextStyle(
+                        fontSize: 24,
+                      ),),
+                      Text(
+                        'Today\'s suggestion:',
+                        style: TextStyle(
+                          fontSize: 32,
+                        ),
+                      ),
+                      Text('Error: ${snapshot.error}', style: 
+                      TextStyle(
+                        fontSize: 24,
+                      ),
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        height: 225,
+                        width: 225,
+                        color: Colors.green,
+                        child: Image.asset('assets/images/food.jpg'),
+                      ),
+                      SizedBox(height: 10), 
+                      Container(
                         padding: EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
                           color: Colors.red,
@@ -210,12 +176,9 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
                           overflow: TextOverflow.visible,
                         ),
                       ),
-          
-          
-                ],
-              ),
-            
-          ),
+                    ],
+                  ),
+                ),
               );
             } else {
               return Center(
@@ -223,7 +186,6 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
               );
             }
           },
-          
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -236,11 +198,11 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
 
           switch (index) {
             case 0:
-Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const Homepage(),
-                    ),
-                  );
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => const Homepage(),
+                ),
+              );
               break;
             case 1:
               Navigator.of(context).push(
