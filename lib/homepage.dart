@@ -87,15 +87,17 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
           ),
         ],
       ),
-      body: FutureBuilder<Meal>(
-
-        future: fetchMeals(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return SingleChildScrollView(
-              child: Center(
+      body: SingleChildScrollView(
+        
+        scrollDirection: Axis.vertical,
+        child: FutureBuilder<Meal>(
+        
+          future: fetchMeals(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Center(
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery.of(context).size.height * 1.2,
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -114,86 +116,115 @@ if (response.statusCode == 200) {      final data = json.decode(response.body);
                       ),
                       Container(
                         alignment: Alignment.center,
-                        height: 225,
-                        width: 225,
+                        height: 400,
+                        width: 400,
                         color: Colors.green,
                         child: Image.network(snapshot.data!.strMealThumb),
+                        
+                        
                       ),
                       SizedBox(height: 10),
-                      Container(
-                        color: Colors.red,
-                        height: 50,
-                        width: 225,
-                        child: Text(snapshot.data!.strInstructions),
+                         Container(
+
+                          height: 400,
+                          width: 400,
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 2,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Text(snapshot.data!.strInstructions,
+                        
+                        style: TextStyle(
+                          fontSize: 24,
+                        ),
+                        softWrap: true,
+                        ),
                       )
                     ],
                   ),
                 ),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-
-
-              child: Container(
-             
-            height: MediaQuery.of(context).size.height * 0.7,
-            width: MediaQuery.of(context).size.width * 0.9,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+              );
+            } else if (snapshot.hasError) {
+              return Center(
         
         
-        
-                
-                Text("Welcome \$user", style: TextStyle(
-                  fontSize: 24,
-                ),),
-                Text(
-                  'Today\'s suggestion:',
-                  style: TextStyle(
-                    fontSize: 32,
+                child: Container(
+               
+              height: MediaQuery.of(context).size.height * 0.7,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+          
+          
+          
+                  
+                  Text("Welcome \$user", style: TextStyle(
+                    fontSize: 24,
+                  ),),
+                  Text(
+                    'Today\'s suggestion:',
+                    style: TextStyle(
+                      fontSize: 32,
+                    ),
                   ),
-                ),
-                Text('Error: ${snapshot.error}', style: 
-                TextStyle(
-                  fontSize: 24,
-                ),
-                ),
-                Container(
-            alignment: Alignment.center,
-              height: 225,
-              width: 225,
-              color: Colors.green,
-        // Here comes a image of a food item random selected
-            child: Image.asset('assets/images/food.jpg'),
+                  Text('Error: ${snapshot.error}', style: 
+                  TextStyle(
+                    fontSize: 24,
+                  ),
+                  ),
+                  Container(
+              alignment: Alignment.center,
+                height: 225,
+                width: 225,
+                color: Colors.green,
+          // Here comes a image of a food item random selected
+              child: Image.asset('assets/images/food.jpg'),
+              
+            ),
+            SizedBox(height: 10), 
+            //Here comes the description
+               Container(
+                        padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Text(
+                          'Description',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                        ),
+                      ),
+          
+          
+                ],
+              ),
             
           ),
-          SizedBox(height: 10), 
-          //Here comes the description
-          Container(
-        
-        color: Colors.red,
-            height: 50,
-              width: 225,
-            child: Text('Description'),
-        
-          )
-        
-        
-              ],
-            ),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
           
         ),
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-        
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.grey,

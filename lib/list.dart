@@ -104,8 +104,7 @@ elevation: 10.0,
 child: GestureDetector(
   onTap: () {
 
-//Viewing list logic
-
+ 
   },
 
 child: Column(

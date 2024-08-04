@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
+// import 'package:beta_app/models/meal.dart';
+import '../post.dart'; 
 
 class ChooseMealDialog extends StatefulWidget {
   const ChooseMealDialog({Key? key}) : super(key: key);
@@ -19,6 +22,27 @@ List <String> meals = [ 'rice', 'beans', 'spaghetti', 'yam', 'potato', 'plantain
 
 var test = [];
 
+//
+Future<Meal> fetchMeals() async {
+
+final url =  Uri.parse('https://www.themealdb.com/api/json/v1/1/random.php');
+
+
+final response = await http.get(url);
+
+if (response.statusCode == 200) {      final data = json.decode(response.body);
+
+  
+   List<dynamic> mealsJson  = data['meals'];
+      List<Meal> meals  = mealsJson
+          .map((mealJson) => Meal.fromJson(mealJson))
+          .toList();
+      return meals[0];
+
+} else {
+  throw Exception('Failed to load meal');
+}
+}
 
 // List meals.add('rice');
 void increseIndex() {
@@ -48,14 +72,32 @@ dinnermeal.add('moi moi');
         mainAxisSize: MainAxisSize.min,
         children: [
 
-Container(
+ FutureBuilder<Meal>(
 
-height: 100,
-width: 300,
-// color: Colors.green,
+future: fetchMeals(),
+builder: (context, snapshot) {
+  
+
+if(snapshot.hasData) {
+
+  return Column(
+    children: [
+      Text(snapshot.data!.strMeal),
+      Image.network(snapshot.data!.strMealThumb),
+    ],
+  );
+}
+else {
+ return Center(
+                child: CircularProgressIndicator(),
+              );
+}
+
+},
+
  
-child: Text(
- 
+
+),
 // if(pressed == true) {
  
 // dinnermeal++;
@@ -65,11 +107,10 @@ child: Text(
  
 // else {
 // }
-  '$meals[i]',
   
 
 
-
+        ],
     ),
 
 
@@ -80,7 +121,7 @@ child: Text(
 
 
         
-),
+
 //
 //
           // ListTile(
@@ -101,8 +142,8 @@ child: Text(
           //     Navigator.of(context).pop('Dinner');
           //   },
           // ),
-        ],
-      ),
+        
+      
       actions: [
 
         Row(
@@ -120,12 +161,10 @@ child: Text(
   ),
 
   ElevatedButton(onPressed:() {
-addItems();
-    increseIndex();
 
- print(dinnermeal[0]);
- print(dinnermeal[1]);
-    bool pressed = true;
+// It should here fetch another meal from the api
+
+
   }, child: Text('Next'))
  ],
 
