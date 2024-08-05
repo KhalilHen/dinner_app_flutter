@@ -7,7 +7,8 @@ import 'post.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-
+import 'firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'dialogs/controllers.dart/fetch_controller.dart';  // Import the fetch controller
 
@@ -34,6 +35,11 @@ class HomeScreen extends StatefulWidget {
   int _currentIndex = 0;
   late Future<Meal> _futureMeal; // Define Future as a state variable
 
+
+
+    final user = FirebaseAuth.instance.currentUser;
+
+
   final Controller _fetchController = Controller(); // Create an instance of FetchController
 
   @override
@@ -42,6 +48,12 @@ class HomeScreen extends StatefulWidget {
     _futureMeal = _fetchController.fetchMeals(); // Initialize Future in initState
   }
 
+
+
+Future pickMeal() async { 
+
+
+}
   @override
   Widget build(BuildContext context) {
     final primaryBackgroundColor = Theme.of(context).primaryColor;
@@ -76,12 +88,15 @@ class HomeScreen extends StatefulWidget {
             if (snapshot.hasData) {
               return Center(
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 1.2,
+                  height: MediaQuery.of(context).size.height * 1.8,
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Text("Welcome ${user!.email}" ?? 'Guest', style: TextStyle(
+                        fontSize: 24,
+                      ),),  
                       Text(
                         'Today\'s suggestion:',
                         style: TextStyle(
@@ -176,6 +191,18 @@ class HomeScreen extends StatefulWidget {
                           overflow: TextOverflow.visible,
                         ),
                       ),
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _futureMeal = _fetchController.fetchMeals();
+                          });
+                        },
+                        child: Text('Add to list ', style: TextStyle(
+                          fontSize: 24,
+                        ),),
+                      ),
+
+                      
                     ],
                   ),
                 ),

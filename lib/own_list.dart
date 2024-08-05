@@ -5,17 +5,17 @@ import 'choose_meal.dart';
 import 'firebase_options.dart';
 import './dialogs/create_list_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:cloud_firestore/cloud_firestore.dart';
-import 'own_list.dart ';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ListPage extends StatefulWidget {
-  const ListPage({Key? key}) : super(key: key);
+
+class OwnListPage extends StatefulWidget {
+  const OwnListPage({Key? key}) : super(key: key);
 
   @override
-  _ListPageState createState() => _ListPageState();
+  _OwnListPageState createState() => _OwnListPageState();
 }
 
-class _ListPageState extends State<ListPage> {
+class _OwnListPageState extends State<OwnListPage> {
   int _currentIndex = 2;
 final db = FirebaseFirestore.instance;
 
@@ -27,7 +27,9 @@ final db = FirebaseFirestore.instance;
 
 void retrieveList() async {
 
-var collection =  FirebaseFirestore.instance.collection('list');
+var collection = FirebaseFirestore.instance.collectionGroup('list');
+
+
 var querySnapshot = await collection.get();
 for (var queryDocumentSnapshot in querySnapshot.docs) {
   print(queryDocumentSnapshot.data());
@@ -51,7 +53,8 @@ catch (e) {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text(
-          'Homepage',
+          // '{$list.title}',
+          'test',
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -104,11 +107,7 @@ elevation: 10.0,
 child: GestureDetector(
   onTap: () {
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => OwnListPage(),
-      ),
-    );
+ 
   },
 
 child: Column(
@@ -152,66 +151,7 @@ mainAxisAlignment: MainAxisAlignment.start,
         },
       ),
 
-floatingActionButton: FloatingActionButton(
 
-onPressed: () {
-  showDialog(
-    context: context,
-    builder: (context) {
-      return CreateListDialog();
-    },
-  );
-},
-child: Icon(Icons.add),
-
-),
-           bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey,
-        currentIndex: _currentIndex,
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-
-          switch (index) {
-            case 0:
-Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const Homepage(),
-                    ),
-                  );
-              break;
-            case 1:
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ChooseMealPage(),
-                ),
-              );
-              break;
-            case 2:
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ListPage(),
-                ),
-              );
-              break;
-          }
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home ',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lunch_dining),
-            label: 'Choose',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Lists',
-          ),
-        ],
-      ),
     );
   }
 }
