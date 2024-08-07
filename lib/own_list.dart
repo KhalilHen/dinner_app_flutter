@@ -7,10 +7,12 @@ import './dialogs/create_list_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
+import 'list.dart';
 class OwnListPage extends StatefulWidget {
-  const OwnListPage({Key? key}) : super(key: key);
-
+  // var docId;
+  final String docId; 
+  
+  const OwnListPage({Key? key, required this.docId}) : super(key: key);
   @override
   _OwnListPageState createState() => _OwnListPageState();
 }
@@ -18,21 +20,22 @@ class OwnListPage extends StatefulWidget {
 class _OwnListPageState extends State<OwnListPage> {
   int _currentIndex = 2;
 final db = FirebaseFirestore.instance;
+var docId;
+
+// TODO Fix this laterwy.size.width;
 
 
-// TODO Fix this later
-    // final screenWidth = mediaQuery.size.width;
+
+void retrieveParentList() async {
+
+var parentCollection = FirebaseFirestore.instance.collectionGroup('list');
 
 
-
-void retrieveList() async {
-
-var collection = FirebaseFirestore.instance.collectionGroup('list');
-
-
-var querySnapshot = await collection.get();
+var querySnapshot = await parentCollection.get();
 for (var queryDocumentSnapshot in querySnapshot.docs) {
-  print(queryDocumentSnapshot.data());
+
+
+  print(queryDocumentSnapshot.data() == ('title'));
 }
 try {
 

@@ -9,7 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'own_list.dart ';
 
 class ListPage extends StatefulWidget {
-  const ListPage({Key? key}) : super(key: key);
+  const ListPage({Key? key}) : super(key: key,);
 
   @override
   _ListPageState createState() => _ListPageState();
@@ -18,7 +18,8 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   int _currentIndex = 2;
 final db = FirebaseFirestore.instance;
-
+var  docId;
+    // final mediaQuery = MediaQuery.of(context);
 
 // TODO Fix this later
     // final screenWidth = mediaQuery.size.width;
@@ -27,9 +28,12 @@ final db = FirebaseFirestore.instance;
 
 void retrieveList() async {
 
-var collection =  FirebaseFirestore.instance.collection('list');
+var collection =  FirebaseFirestore.instance.collection('customLists');
 var querySnapshot = await collection.get();
 for (var queryDocumentSnapshot in querySnapshot.docs) {
+
+  String docId = queryDocumentSnapshot.id;
+  print('Document ID: $docId');
   print(queryDocumentSnapshot.data());
 }
 try {
@@ -72,6 +76,7 @@ catch (e) {
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: FirebaseFirestore.instance.collection('list').snapshots(),
         builder: (context, snapshot) {
+          docId = snapshot.data!.docs[0].id;
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -84,11 +89,13 @@ catch (e) {
                 crossAxisCount: 3,
               ),
               itemBuilder: (context, index) {
+                
                                 final data = docs[index].data();
-
+                                final doc = docs[index];
+      print('Document ID: ${doc.id}');
                                 
     return Card( 
-
+          
         margin: EdgeInsets.all(15.0), //I am considering using it 
 
 
@@ -106,7 +113,7 @@ child: GestureDetector(
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => OwnListPage(),
+        builder: (context) => OwnListPage(docId: doc.id),
       ),
     );
   },
@@ -125,6 +132,13 @@ mainAxisAlignment: MainAxisAlignment.start,
   
   
   ),
+    Text(
+                    'ID: ${doc.id}',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      color: Colors.grey,
+                    ),
+    ),
 
   // if (screenWidth > 614 )
   // Text(data['description'] ?? 'No description'), //Think not gonna use it for phones as there for too less space 
