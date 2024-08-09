@@ -5,7 +5,7 @@ import 'choose_meal.dart';
 import 'firebase_options.dart';
 import './dialogs/create_list_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 import 'list.dart';
 class OwnListPage extends StatefulWidget {
@@ -24,8 +24,10 @@ var docId;
 
 // TODO Fix this laterwy.size.width;
 
+void retrieveId() async {
+    print('Document ID: ${widget.docId}');
 
-
+}
 void retrieveParentList() async {
 
 var parentCollection = FirebaseFirestore.instance.collectionGroup('list');
@@ -46,6 +48,33 @@ catch (e) {
 }
 
 }
+void retrieveSpecificList() async { 
+   String parentDocId = widget.docId;
+
+var collection = FirebaseFirestore.instance.collection('list').doc(parentDocId).collection('mealItem');
+  var querySnapshot = await collection.get();
+
+  for (var queryDocumentSnapshot in querySnapshot.docs) {
+
+    print('Document ID:  ${queryDocumentSnapshot.id} ' );
+    print(queryDocumentSnapshot.data());
+
+    
+  }
+//This one didn't work
+  // var collection =  FirebaseFirestore.instance.collection('list').where(widget.docId, isEqualTo:  docId); 
+  // var querySnapshot = await collection.get();
+
+  for (var queryDocumentSnapshot in querySnapshot.docs) {
+    print('Document ID: $docId');
+    print(queryDocumentSnapshot.data());
+} 
+}
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSubcollection() {
+    // Access the subcollection under the document with widget.docId
+    return db.collection('list').doc(widget.docId).collection('mealItem').snapshots();
+  }
 
 
   @override
@@ -76,7 +105,7 @@ catch (e) {
         ],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance.collection('list').snapshots(),
+        stream:  retrieveSubcollection(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -118,7 +147,7 @@ mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
   children: [
 
- Text(data['title'] ?? 'No title',
+ Text(data['mealName'] ?? 'No title',
   
   
   style:  TextStyle(
@@ -127,6 +156,7 @@ mainAxisAlignment: MainAxisAlignment.start,
   
   
   ),
+
 
   // if (screenWidth > 614 )
   // Text(data['description'] ?? 'No description'), //Think not gonna use it for phones as there for too less space 
@@ -153,6 +183,13 @@ mainAxisAlignment: MainAxisAlignment.start,
           return Center(child: Text('No data found'));
         },
       ),
+     floatingActionButton:  ElevatedButton(
+onPressed: () {
+  retrieveSpecificList();
+},
+child: Text(''),
+
+     ),
 
 
     );

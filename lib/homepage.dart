@@ -50,10 +50,10 @@ class HomeScreen extends StatefulWidget {
 
 
 
-Future pickMeal() async { 
+// Future<void> pickMeal() async { 
+  
 
-
-}
+// }
   @override
   Widget build(BuildContext context) {
     final primaryBackgroundColor = Theme.of(context).primaryColor;
@@ -117,6 +117,7 @@ Future pickMeal() async {
                       ),
                       SizedBox(height: 10),
                       Container(
+                      
                         height: 400,
                         width: 400,
                         padding: EdgeInsets.all(8.0),
@@ -139,6 +140,7 @@ Future pickMeal() async {
                           ),
                           softWrap: true,
                         ),
+                        
                       )
                     ],
                   ),
@@ -190,6 +192,9 @@ Future pickMeal() async {
                           softWrap: true,
                           overflow: TextOverflow.visible,
                         ),
+
+
+                        
                       ),
                       ElevatedButton(
                         onPressed: () {
@@ -201,7 +206,6 @@ Future pickMeal() async {
                           fontSize: 24,
                         ),),
                       ),
-
                       
                     ],
                   ),
