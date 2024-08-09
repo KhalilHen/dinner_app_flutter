@@ -26,23 +26,27 @@ var  docId;
 
 
 
-void retrieveList() async {
 
+//TODO Adjust this
+//TODO Why is there a retrieve list function, When using something else in streambuilder
+Stream<QuerySnapshot<Map<String, dynamic>>>  retrieveList()  {
+ return db
+      .collection('list')      .snapshots();
 var collection =  FirebaseFirestore.instance.collection('customLists');
-var querySnapshot = await collection.get();
-for (var queryDocumentSnapshot in querySnapshot.docs) {
+// var querySnapshot = await collection.get();
+// for (var queryDocumentSnapshot in querySnapshot.docs) {
 
-  String docId = queryDocumentSnapshot.id;
-  print('Document ID: $docId');
-  print(queryDocumentSnapshot.data());
-}
-try {
+//   String docId = queryDocumentSnapshot.id;
+//   print('Document ID: $docId');
+//   print(queryDocumentSnapshot.data());
+// }
+// try {
 
 
-}
-catch (e) {
-  print('Failed to retrieve list: $e');
-}
+// }
+// catch (e) {
+//   print('Failed to retrieve list: $e');
+// }
 
 }
 
@@ -74,7 +78,7 @@ catch (e) {
         ],
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        stream: FirebaseFirestore.instance.collection('list').snapshots(),
+        stream: retrieveList(),
         builder: (context, snapshot) {
           docId = snapshot.data!.docs[0].id;
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');

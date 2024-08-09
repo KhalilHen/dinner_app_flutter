@@ -11,7 +11,7 @@ import 'list.dart';
 class OwnListPage extends StatefulWidget {
   // var docId;
   final String docId; 
-  
+
   const OwnListPage({Key? key, required this.docId}) : super(key: key);
   @override
   _OwnListPageState createState() => _OwnListPageState();
@@ -21,6 +21,7 @@ class _OwnListPageState extends State<OwnListPage> {
   int _currentIndex = 2;
 final db = FirebaseFirestore.instance;
 var docId;
+  
 
 // TODO Fix this laterwy.size.width;
 
@@ -39,6 +40,7 @@ for (var queryDocumentSnapshot in querySnapshot.docs) {
 
   print(queryDocumentSnapshot.data() == ('title'));
 }
+
 try {
 
 
@@ -48,10 +50,23 @@ catch (e) {
 }
 
 }
-void retrieveSpecificList() async { 
+
+// Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSpecificList() {
+    
+//       return db
+//       .collection('list')
+//       .doc(widget.docId)
+//       .collection('mealItem')
+//       .snapshots();
+
+
+      
+//   }
+ retrieveSpecificList() async { 
    String parentDocId = widget.docId;
 
-var collection = FirebaseFirestore.instance.collection('list').doc(parentDocId).collection('mealItem');
+var collection
+ = FirebaseFirestore.instance.collection('list').doc(parentDocId).collection('mealItem');
   var querySnapshot = await collection.get();
 
   for (var queryDocumentSnapshot in querySnapshot.docs) {
