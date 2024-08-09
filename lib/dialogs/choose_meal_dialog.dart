@@ -17,10 +17,10 @@
   bool pressed = false;
     final StreamController<Meal> _mealStreamController = StreamController<Meal>();
 
-late Stream<Meal> _mealStream;
+    late Stream<Meal> _mealStream;
 @override 
 void initState() {
-
+ super.initState();
     _mealStream = _mealStreamController.stream;
 
       _fetchNextmeal();
@@ -28,6 +28,18 @@ void initState() {
 }
   
 
+ Future<void> _fetchNextmeal()  async{
+try {
+
+  final meal = await fetchMeals();
+
+ _mealStreamController.add(meal);
+}
+catch (e) {
+  print('failed to fetced $e');
+}
+
+ }
 
 
    
@@ -54,10 +66,14 @@ void initState() {
   }
 
 
- Future<void> _fetchNextmeal()  async{
 
 
- }
+
+  @override
+  void dispose() {
+    _mealStreamController.close();
+    super.dispose();
+  }
 
 
 
@@ -76,12 +92,17 @@ void initState() {
           } else if (!snapshot.hasData) {
             return Center(child: Text('No meal available'));
           }
-          else {
-
-            final meal = snapshot.data;
-            return Column(
-
+else {     
+    final meal = snapshot.data!; 
+    return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(meal.strMeal),
+                Text('Category: ${meal.strCategory}'),
+                Image.network(meal.strMealThumb),
+              ],
             );
+    
           }
           },
         ),
@@ -137,7 +158,7 @@ void initState() {
 
   // It should here fetch another meal from the api
   // fetchNextMeal();
-
+  _fetchNextmeal();
     }, child: Text('Next'))
   ],
 

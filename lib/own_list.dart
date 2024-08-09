@@ -18,7 +18,6 @@ class OwnListPage extends StatefulWidget {
 }
 
 class _OwnListPageState extends State<OwnListPage> {
-  int _currentIndex = 2;
 final db = FirebaseFirestore.instance;
 var docId;
   
@@ -51,40 +50,7 @@ catch (e) {
 
 }
 
-Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSpecificList() {
-    
-      return db
-  .collection('list')
-      .doc(widget.docId)
-      .collection('mealItem')
-      .snapshots();
 
-
-      
-  }
-//  retrieveSpecificList() async { 
-//    String parentDocId = widget.docId;
-
-// var collection
-//  = FirebaseFirestore.instance.collection('list').doc(parentDocId).collection('mealItem');
-//   var querySnapshot = await collection.get();
-
-//   for (var queryDocumentSnapshot in querySnapshot.docs) {
-
-//     print('Document ID:  ${queryDocumentSnapshot.id} ' );
-//     print(queryDocumentSnapshot.data());
-
-    
-//   }
-// //This one didn't work
-//   // var collection =  FirebaseFirestore.instance.collection('list').where(widget.docId, isEqualTo:  docId); 
-//   // var querySnapshot = await collection.get();
-
-//   for (var queryDocumentSnapshot in querySnapshot.docs) {
-//     print('Document ID: $docId');
-//     print(queryDocumentSnapshot.data());
-// } 
-// }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSubcollection() {
     // Access the subcollection under the document with widget.docId
@@ -199,7 +165,19 @@ Text(data['mealDescription' ?? 'No description']),
           return Center(child: Text('No data found'));
         },
       ),
+floatingActionButton: FloatingActionButton(
 
+onPressed: () {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return CreateListDialog();
+    },
+  );
+},
+child: Icon(Icons.add),
+
+),
 
     );
   }
