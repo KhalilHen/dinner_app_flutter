@@ -15,6 +15,12 @@ class CreateListDialog extends StatefulWidget {
 
 class _CreateListDialogState extends State<CreateListDialog> {
   final ListTitleController = TextEditingController();
+  final mealName = TextEditingController();
+  final mealDescription = TextEditingController();
+
+
+  
+  final mealImg = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
 final db = FirebaseFirestore.instance;

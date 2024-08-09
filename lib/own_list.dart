@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dinnerapp/dialogs/create_list_item_dialog.dart';
 import 'package:flutter/material.dart'; 
-import 'homepage.dart';
 import 'choose_meal.dart';
 import 'firebase_options.dart';
-import './dialogs/create_list_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 
-import 'list.dart';
 class OwnListPage extends StatefulWidget {
   // var docId;
   final String docId; 
@@ -171,7 +169,8 @@ onPressed: () {
   showDialog(
     context: context,
     builder: (context) {
-      return CreateListDialog();
+              return CreateListItemDialog(docId: widget.docId);
+
     },
   );
 },

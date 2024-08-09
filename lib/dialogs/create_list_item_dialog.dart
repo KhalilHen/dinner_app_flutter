@@ -7,8 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class CreateListItemDialog extends StatefulWidget {
+  final String docId;
+  const CreateListItemDialog({Key? key, required this.docId}) : super(key: key);
 
-  const CreateListItemDialog({Key? key}) :super(key: key);
 
 
 @override
@@ -24,8 +25,27 @@ Widget build(BuildContext context) {
 
   final ListTitleController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-
+final mealName = TextEditingController();
 final db = FirebaseFirestore.instance;
+
+
+ Future<void>  retrieveSubcollection() async {
+        if (_key.currentState!.validate()) {
+final mealTitle = mealName.text;
+     db.collection('list').doc(widget.docId).collection('mealItem').get();
+
+try {
+    
+}
+catch(e)
+
+{
+  print(e);
+}
+        }
+    // Access the subcollection under the document with widget.docId
+     db.collection('list').doc(widget.docId).collection('mealItem').snapshots();
+  }
   return AlertDialog(
 
 
@@ -63,6 +83,10 @@ final db = FirebaseFirestore.instance;
         ],
       ),
     ),
+  // actions: [
+  //             ElevatedButton(onPressed: retrieveSubcollection() , child: Text('test'))
+
+  // ],
   );
 }
 }
