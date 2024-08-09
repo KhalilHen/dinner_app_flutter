@@ -51,40 +51,40 @@ catch (e) {
 
 }
 
-// Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSpecificList() {
+Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSpecificList() {
     
-//       return db
-//       .collection('list')
-//       .doc(widget.docId)
-//       .collection('mealItem')
-//       .snapshots();
+      return db
+  .collection('list')
+      .doc(widget.docId)
+      .collection('mealItem')
+      .snapshots();
 
 
       
-//   }
- retrieveSpecificList() async { 
-   String parentDocId = widget.docId;
+  }
+//  retrieveSpecificList() async { 
+//    String parentDocId = widget.docId;
 
-var collection
- = FirebaseFirestore.instance.collection('list').doc(parentDocId).collection('mealItem');
-  var querySnapshot = await collection.get();
+// var collection
+//  = FirebaseFirestore.instance.collection('list').doc(parentDocId).collection('mealItem');
+//   var querySnapshot = await collection.get();
 
-  for (var queryDocumentSnapshot in querySnapshot.docs) {
+//   for (var queryDocumentSnapshot in querySnapshot.docs) {
 
-    print('Document ID:  ${queryDocumentSnapshot.id} ' );
-    print(queryDocumentSnapshot.data());
+//     print('Document ID:  ${queryDocumentSnapshot.id} ' );
+//     print(queryDocumentSnapshot.data());
 
     
-  }
-//This one didn't work
-  // var collection =  FirebaseFirestore.instance.collection('list').where(widget.docId, isEqualTo:  docId); 
-  // var querySnapshot = await collection.get();
+//   }
+// //This one didn't work
+//   // var collection =  FirebaseFirestore.instance.collection('list').where(widget.docId, isEqualTo:  docId); 
+//   // var querySnapshot = await collection.get();
 
-  for (var queryDocumentSnapshot in querySnapshot.docs) {
-    print('Document ID: $docId');
-    print(queryDocumentSnapshot.data());
-} 
-}
+//   for (var queryDocumentSnapshot in querySnapshot.docs) {
+//     print('Document ID: $docId');
+//     print(queryDocumentSnapshot.data());
+// } 
+// }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> retrieveSubcollection() {
     // Access the subcollection under the document with widget.docId
@@ -135,8 +135,8 @@ var collection
               ),
               itemBuilder: (context, index) {
                                 final data = docs[index].data();
-
-                                
+                                final doc = docs[index];
+                                print(data);
     return Card( 
 
         margin: EdgeInsets.all(15.0), //I am considering using it 
@@ -161,8 +161,9 @@ child: Column(
 mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
   children: [
+    
 
- Text(data['mealName'] ?? 'No title',
+ Text(data['mealname'] ?? 'No title',
   
   
   style:  TextStyle(
@@ -171,7 +172,7 @@ mainAxisAlignment: MainAxisAlignment.start,
   
   
   ),
-
+Text(data['mealDescription' ?? 'No description']),
 
   // if (screenWidth > 614 )
   // Text(data['description'] ?? 'No description'), //Think not gonna use it for phones as there for too less space 
@@ -198,13 +199,6 @@ mainAxisAlignment: MainAxisAlignment.start,
           return Center(child: Text('No data found'));
         },
       ),
-     floatingActionButton:  ElevatedButton(
-onPressed: () {
-  retrieveSpecificList();
-},
-child: Text(''),
-
-     ),
 
 
     );
