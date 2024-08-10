@@ -16,7 +16,7 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
-  int _currentIndex = 2;
+  int _currentIndex = 1;
 final db = FirebaseFirestore.instance;
 var  docId;
     // final mediaQuery = MediaQuery.of(context);
@@ -42,7 +42,7 @@ Stream<QuerySnapshot<Map<String, dynamic>>>  retrieveList()  {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text(
-          'Homepage',
+          'Your list(s)',
           style: TextStyle(color: Colors.black),
         ),
         actions: [

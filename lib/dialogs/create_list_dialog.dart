@@ -15,8 +15,7 @@ class CreateListDialog extends StatefulWidget {
 
 class _CreateListDialogState extends State<CreateListDialog> {
   final ListTitleController = TextEditingController();
-  final mealName = TextEditingController();
-  final mealDescription = TextEditingController();
+ 
 
 
   

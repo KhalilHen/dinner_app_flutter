@@ -27,7 +27,7 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text(
-          'Homepage',
+          'Choose meal',
           style: TextStyle(color: Colors.black),
         ),
 
