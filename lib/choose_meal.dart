@@ -48,6 +48,13 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
             },
             icon: Icon(Icons.help),
           ),
+             IconButton(
+
+            onPressed: () {
+            //  Log out logic
+            },
+            icon: Icon(Icons.logout ),
+          ),
         ],
       ),
           body: Container(

@@ -72,6 +72,7 @@ catch (e) {
           IconButton(
             onPressed: () {
               // Handle notification button press
+
             },
             icon: Icon(Icons.notifications),
           ),
@@ -96,6 +97,7 @@ catch (e) {
               itemCount: docs.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
+                     childAspectRatio: 4,
               ),
               itemBuilder: (context, index) {
                                 final data = docs[index].data();
@@ -109,15 +111,26 @@ catch (e) {
                               //  );
 
           return Container(
-height: 50,
+            padding: EdgeInsets.all(5),          
+height: 60,
 child: ListTile(
+
+
+
+    //Might add this not sure yet.
+    // shape: RoundedRectangleBorder(
+
+    //   borderRadius: BorderRadius.circular(20),
+    // ),
+
+    
+      title: Text(data['mealname'] ?? 'No title'),
 
                     contentPadding: EdgeInsets.all(15.0),
      dense: true,
     
     // color: Colors.white,
     tileColor: Colors.white,
-      title: Text(data['mealname'] ?? 'No title'),
       subtitle: Text(data['mealDescription'] ?? 'No description'),
       trailing: IconButton(
         icon: Icon(Icons.delete),

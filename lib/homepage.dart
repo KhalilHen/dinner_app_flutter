@@ -41,7 +41,7 @@ class HomeScreen extends StatefulWidget {
     super.initState();
     _futureMeal = _fetchController.fetchMeals(); // Initialize Future in initState
   }
-
+  
   @override
   Widget build(BuildContext context) {
     final primaryBackgroundColor = Theme.of(context).primaryColor;
@@ -66,10 +66,19 @@ class HomeScreen extends StatefulWidget {
             },
             icon: Icon(Icons.help),
           ),
+
+          IconButton(
+
+            onPressed: () {
+            //  Log out logic
+            },
+            icon: Icon(Icons.logout ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
+      
         child: FutureBuilder<Meal>(
           future: _futureMeal, // Use the Future variable
           builder: (context, snapshot) {
@@ -82,6 +91,9 @@ class HomeScreen extends StatefulWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      Text('Welcome \$user', style: TextStyle(
+  fontSize: 30,
+)),
                       Text(
                         'Today\'s suggestion:',
                         style: TextStyle(
@@ -97,7 +109,6 @@ class HomeScreen extends StatefulWidget {
                         alignment: Alignment.center,
                         height: 400,
                         width: 400,
-                        color: Colors.green,
                         child: Image.network(snapshot.data!.strMealThumb),
                       ),
                       SizedBox(height: 10),

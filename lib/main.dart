@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'homepage.dart';
 import 'list.dart';
+import 'sign_up.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -154,7 +155,8 @@ class _MainScreenState extends State<MainScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // For another time
+Navigator.push(context, MaterialPageRoute(builder: (context) => signUp
+()));
                       },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(Colors.grey.shade400),
