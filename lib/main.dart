@@ -24,7 +24,9 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.orange.shade700,
+        // primaryColor: Colors.orange.shade700,
+ 
+ primaryColor: Color(0xFFE0CDB4),
       ),
       home: const MainScreen(),
     );
@@ -168,7 +170,8 @@ class _MainScreenState extends State<MainScreen> {
                     ElevatedButton(
                       onPressed: _login,
                       style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(const Color(0xFF00FF00)),
+                        backgroundColor: WidgetStateProperty.all(const  Color(0xFF6B8E23)), // Olive green
+
                         padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
                       ),
                       child: const Text(

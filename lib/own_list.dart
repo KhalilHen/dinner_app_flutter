@@ -95,59 +95,105 @@ catch (e) {
             return GridView.builder(
               itemCount: docs.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 1,
               ),
               itemBuilder: (context, index) {
                                 final data = docs[index].data();
                                 final doc = docs[index];
                                 print(data);
-    return Card( 
-
-        margin: EdgeInsets.all(15.0), //I am considering using it 
 
 
-  color: Colors.white,
+                              //  return ListTile(
 
-elevation: 10.0,
 
-  shadowColor: Colors.black,
-    shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(15.0),
+                              //  );
+
+                              return Column(
+
+
+                                children: [
+
+ListTile(
+
+
+  //These didn't work for me
+
+  //     visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+  //               dense:true,
+  //  contentPadding: EdgeInsets.zero,
+  // minVerticalPadding: 0,
+
+
+titleAlignment: ListTileTitleAlignment.top,
+  title: Text(data['mealname'] ?? 'No title'),
+  subtitle: Text(data['mealDescription'] ?? 'No description'),
+  trailing: IconButton(
+    icon: Icon(Icons.delete),
+    onPressed: () {
+    },
+
+
+
   ),
+//Add also a border to the tile
 
-child: GestureDetector(
+    // minTileHeight: 100,
+
+  tileColor: Colors.white,
   onTap: () {
+ //Add her elater logic 
+  },
+)
+
+                                ],
+                              );
+//     return Card( 
+
+//         margin: EdgeInsets.all(15.0), //I am considering using it 
+
+
+//   color: Colors.white,
+
+// elevation: 10.0,
+
+//   shadowColor: Colors.black,
+//     shape: RoundedRectangleBorder(
+//     borderRadius: BorderRadius.circular(15.0),
+//   ),
+
+// child: GestureDetector(
+//   onTap: () {
 
  
-  },
+//   },
 
-child: Column(
-mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
+// child: Column(
+// mainAxisAlignment: MainAxisAlignment.start,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//   children: [
     
 
- Text(data['mealname'] ?? 'No title',
+//  Text(data['mealname'] ?? 'No title',
   
   
-  style:  TextStyle(
-    decoration: TextDecoration.underline, 
-  )
+//   style:  TextStyle(
+//     decoration: TextDecoration.underline, 
+//   )
   
   
-  ),
-Text(data['mealDescription' ?? 'No description']),
+//   ),
+// Text(data['mealDescription' ?? 'No description']),
 
-  // if (screenWidth > 614 )
-  // Text(data['description'] ?? 'No description'), //Think not gonna use it for phones as there for too less space 
+//   // if (screenWidth > 614 )
+//   // Text(data['description'] ?? 'No description'), //Think not gonna use it for phones as there for too less space 
 
   
 
 
-    ],
-),
+//     ],
+// ),
 
-),
+// ),
 
 
   
@@ -156,7 +202,7 @@ Text(data['mealDescription' ?? 'No description']),
         
 
  
-    );
+//     );
               },
             );
           }

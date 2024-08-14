@@ -21,10 +21,12 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
 
   @override
   Widget build(BuildContext context) {
-    final primaryBackgroundColor = Theme.of(context).primaryColor;
+    final primaryBackgroundColor = Color(0xFFE0CDB4);
+
     return Scaffold(
       backgroundColor: primaryBackgroundColor,
       appBar: AppBar(
+        
         backgroundColor: Colors.grey,
         title: Text(
           'Choose meal',

@@ -18,7 +18,7 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.orange.shade700,
+        primaryColor: Color(0xFFE0CDB4) ,
       ),
       home: HomeScreen(),
     );
