@@ -108,45 +108,65 @@ catch (e) {
 
                               //  );
 
-                              return Column(
+          return Container(
+height: 50,
+child: ListTile(
+
+                    contentPadding: EdgeInsets.all(15.0),
+     dense: true,
+    
+    // color: Colors.white,
+    tileColor: Colors.white,
+      title: Text(data['mealname'] ?? 'No title'),
+      subtitle: Text(data['mealDescription'] ?? 'No description'),
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: () {
+          db.collection('list').doc(widget.docId).collection('mealItem').doc(doc.id).delete();
+        },
+      ),
+      onTap: () {
+    
+      }, 
+    
+    ),
+
+          );                  
+return LimitedBox(
 
 
-                                children: [
+    maxHeight: 40,
+    maxWidth: 80,
+    // color: Colors.white,
+    child: ListTile(
+                        contentPadding: EdgeInsets.all(15.0),
+     dense: true,
+    
+    // color: Colors.white,
+    tileColor: Colors.white,
+      title: Text(data['mealname'] ?? 'No title'),
+      subtitle: Text(data['mealDescription'] ?? 'No description'),
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: () {
+          db.collection('list').doc(widget.docId).collection('mealItem').doc(doc.id).delete();
+        },
+      ),
+      onTap: () {
+    
+      }, 
+    
+    ),
+  
 
-ListTile(
+);
 
-
-  //These didn't work for me
-
-  //     visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-  //               dense:true,
-  //  contentPadding: EdgeInsets.zero,
-  // minVerticalPadding: 0,
-
-
-titleAlignment: ListTileTitleAlignment.top,
-  title: Text(data['mealname'] ?? 'No title'),
-  subtitle: Text(data['mealDescription'] ?? 'No description'),
-  trailing: IconButton(
-    icon: Icon(Icons.delete),
-    onPressed: () {
-    },
+                                
 
 
 
-  ),
-//Add also a border to the tile
-
-    // minTileHeight: 100,
-
-  tileColor: Colors.white,
-  onTap: () {
- //Add her elater logic 
-  },
-)
-
-                                ],
-                              );
+                            
+                            
 //     return Card( 
 
 //         margin: EdgeInsets.all(15.0), //I am considering using it 
