@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-// import 'package:beta_app/models/meal.dart';
-import '../post.dart'; 
-
+// Import your Meal model here
+import '../post.dart';
 import 'add_meal_to_list.dart';
 
 class ChooseMealDialog extends StatefulWidget {
@@ -15,13 +14,13 @@ class ChooseMealDialog extends StatefulWidget {
 }
 
 class _ChooseMealDialogState extends State<ChooseMealDialog> {
-  bool pressed = false;
-  final StreamController<Meal> _mealStreamController = StreamController<Meal>();
+  late StreamController<Meal> _mealStreamController;
   late Stream<Meal> _mealStream;
 
   @override
   void initState() {
     super.initState();
+    _mealStreamController = StreamController<Meal>();
     _mealStream = _mealStreamController.stream;
     _fetchNextMeal();
   }
@@ -31,7 +30,7 @@ class _ChooseMealDialogState extends State<ChooseMealDialog> {
       final meal = await fetchMeals();
       _mealStreamController.add(meal);
     } catch (e) {
-      print('Failed to fetch meal: $e');
+      _mealStreamController.addError('Failed to fetch meal: $e');
     }
   }
 
@@ -77,6 +76,17 @@ class _ChooseMealDialogState extends State<ChooseMealDialog> {
                 Text(meal.strMeal),
                 Text('Category: ${meal.strCategory}'),
                 Image.network(meal.strMealThumb),
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {  
+                        return AddMealDialog(idMeal: meal.idMeal, name: meal.strMeal);
+                      },
+                    );
+                  },
+                  child: Text('Pick'),
+                ),
               ],
             );
           }
@@ -87,24 +97,12 @@ class _ChooseMealDialogState extends State<ChooseMealDialog> {
           children: [
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop('');
+                Navigator.of(context).pop();
               },
               child: const Text('Cancel'),
             ),
             ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AddMealDialog(id: meal.idMeal, name: meal.strMeal);
-                  },
-                );
-              },
-              child: Text('Pick'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                // Fetch another meal from the API
                 _fetchNextMeal();
               },
               child: Text('Next'),
