@@ -55,7 +55,11 @@ class _signUpState extends State<signUp> {
 
   @override
   Widget build(BuildContext context) {
+            primaryColor: Color(0xFFE0CDB4);
+
     return Scaffold(
+   backgroundColor: Color(0xFFE0CDB4),
+
       appBar: AppBar(
         title: const Text('Sign Up'),
       ),
@@ -63,55 +67,58 @@ class _signUpState extends State<signUp> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _key,
-          child: Column(
-            children: [
-              TextFormField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter an email';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
-                controller: passwordController,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffixIcon: IconButton(
-                    icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                  ),
-                ),
-                obscureText: !showPassword,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter a password';
-                  }
-                  return null;
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-
-                  _signUp();
- showDialog(
-  context: context,
-  builder: (context) {
-    return SignUpDialog(email: emailController.text, password: passwordController.text);
-
-  },
-);
-                },
+          child: Container(
+            child: Column(
               
-                child: const Text('Sign Up'),
-              ),
-            ],
+              children: [
+                TextFormField(
+                  controller: emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter an email';
+                    }
+                    return null;
+                  },
+                ),
+                TextFormField(
+                  controller: passwordController,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(showPassword ? Icons.visibility : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          showPassword = !showPassword;
+                        });
+                      },
+                    ),
+                  ),
+                  obscureText: !showPassword,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter a password';
+                    }
+                    return null;
+                  },
+                ),
+                ElevatedButton(
+                  onPressed: () {
+            
+                    _signUp();
+             showDialog(
+              context: context,
+              builder: (context) {
+                return SignUpDialog(email: emailController.text, password: passwordController.text);
+            
+              },
+            );
+                  },
+                
+                  child: const Text('Sign Up'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

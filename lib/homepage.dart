@@ -7,8 +7,8 @@ import 'post.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'main.dart';
 import 'dialogs/controllers.dart/fetch_controller.dart';  // Import the fetch controller
 
 class Homepage extends StatelessWidget {
@@ -33,6 +33,7 @@ class HomeScreen extends StatefulWidget {
 }class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   late Future<Meal> _futureMeal; // Define Future as a state variable
+    final user = FirebaseAuth.instance.currentUser;
 
   final Controller _fetchController = Controller(); // Create an instance of FetchController
 
@@ -40,6 +41,16 @@ class HomeScreen extends StatefulWidget {
   void initState() {
     super.initState();
     _futureMeal = _fetchController.fetchMeals(); // Initialize Future in initState
+  }
+
+  void logOut() async {
+
+    await FirebaseAuth.instance.signOut();
+  Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              );
   }
   
   @override
@@ -71,6 +82,7 @@ class HomeScreen extends StatefulWidget {
 
             onPressed: () {
             //  Log out logic
+            logOut();
             },
             icon: Icon(Icons.logout ),
           ),
@@ -91,7 +103,8 @@ class HomeScreen extends StatefulWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text('Welcome \$user', style: TextStyle(
+                              Text('Welcome ${user?.displayName ?? user?.email ?? 'Guest'}',
+ style: TextStyle(
   fontSize: 30,
 )),
                       Text(

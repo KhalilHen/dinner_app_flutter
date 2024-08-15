@@ -38,7 +38,31 @@ super.initState();
     passwordController.dispose();
     super.dispose();
   }
+void  createUser() async {
 
+      if (_formKey.currentState?.validate() ?? false) {
+              final username = usernameController.text;
+              final email = emailController.text;
+              final password = passwordController.text;
+
+              CollectionReference users = FirebaseFirestore.instance.collection('Users');
+
+              users.add({
+                'username': username,
+                'email': email,
+                'password': password,
+              }).then((_) {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Successfully signed up')),
+                );
+              }).catchError((error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to sign up: $error')),
+                );
+              });
+            }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +172,7 @@ setState(() {
         ),
         ElevatedButton(
           onPressed: () {
-      
+       createUser();
           },
           child: Text('Create your account '),
         ),
