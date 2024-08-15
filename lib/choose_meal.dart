@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'homepage.dart'; 
+  import '../post.dart'; 
 
 import './dialogs/choose_meal_dialog.dart';
 import 'list.dart';
 class ChooseMealPage extends StatefulWidget {
-  const ChooseMealPage({Key? key}) : super(key: key);
+  const ChooseMealPage({Key? key,
+
+  
+  }) : super(key: key);
 
   @override
   _ChooseMealPageState createState() => _ChooseMealPageState();
@@ -107,19 +111,7 @@ TextStyle(
 
 )),
 
-// Row(
-//   children: [
 
-//     ElevatedButton(onPressed: null, child: Text('cane')),
-
-//         ElevatedButton(onPressed: null, child: Text('')),
-
-
-//     ElevatedButton(onPressed: null, child: Text('')),
-
-//   ],
-
-// ),
 ],
 
 ),
