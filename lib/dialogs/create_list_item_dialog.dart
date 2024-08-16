@@ -12,6 +12,8 @@ class CreateListItemDialog extends StatefulWidget {
 
 
 
+
+
 @override
   
   _CreateListItemDialogState createState () => _CreateListItemDialogState();
@@ -20,6 +22,7 @@ class CreateListItemDialog extends StatefulWidget {
 }
 class _CreateListItemDialogState extends State<CreateListItemDialog> {
 
+    final user = FirebaseAuth.instance.currentUser;
 
 @override  
 Widget build(BuildContext context) {

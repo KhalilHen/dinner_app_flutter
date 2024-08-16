@@ -33,6 +33,7 @@ class HomeScreen extends StatefulWidget {
 }class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   late Future<Meal> _futureMeal; // Define Future as a state variable
+    final user = FirebaseAuth.instance.currentUser;
 
   final Controller _fetchController = Controller(); // Create an instance of FetchController
 

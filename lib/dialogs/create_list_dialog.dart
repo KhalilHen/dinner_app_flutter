@@ -16,7 +16,7 @@ class CreateListDialog extends StatefulWidget {
 class _CreateListDialogState extends State<CreateListDialog> {
   final ListTitleController = TextEditingController();
  
-
+    final user = FirebaseAuth.instance.currentUser;
 
   
   final mealImg = TextEditingController();
@@ -25,11 +25,13 @@ class _CreateListDialogState extends State<CreateListDialog> {
 final db = FirebaseFirestore.instance;
 
 
-
   Future<void> _createList() async {
     if (_key.currentState!.validate()) {
+  if(user != null) {
 
-final  title =  ListTitleController.text;
+    print(user);
+
+ final  title =  ListTitleController.text;
 
       
 CollectionReference  createListTitle = FirebaseFirestore.instance.collection('list');
@@ -38,6 +40,10 @@ try {
 createListTitle.add({
 
   'title': title,
+// 'user': user.uid??,
+  'userId': user!.uid,
+  //TODO add late the display name to it  
+  'userEmail': user!.email,
 
   
 }).then((__)
@@ -56,6 +62,18 @@ ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Created list:
         print('Sign up failed: $e');
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up failed: $e')));
       }
+  }
+  
+  else {
+
+
+ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('User is not logged in')));
+
+      print('User is not logged in');
+
+  }
+
+
 
 
 
@@ -95,6 +113,7 @@ ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Created list:
               child: const Text('Create list'),
             ),
           ),
+       
         ],
       ),
     ),
