@@ -8,6 +8,8 @@ class AuthController {
  final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> key = GlobalKey<FormState>();
+
+  //For now not used
   User? getCurrentUser() {
 
     return   FirebaseAuth.instance.currentUser;

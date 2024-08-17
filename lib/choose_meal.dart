@@ -78,7 +78,6 @@ child: Column(
  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
   crossAxisAlignment: CrossAxisAlignment.center,
 children: [
-  Text(' \$title'),
 
 
 
@@ -93,10 +92,7 @@ return ChooseMealDialog();
  } ); 
 },
 
-    // style: ElevatedButton.styleFrom(
-    //                     foregroundColor: Colors.green,
-    //                   ),
-
+    
 
                       style: ButtonStyle(
                        backgroundColor: MaterialStateProperty.all(Colors.green),

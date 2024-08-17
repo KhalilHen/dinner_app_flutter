@@ -1,3 +1,4 @@
+import 'package:dinnerapp/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -5,7 +6,7 @@ import 'dart:async';
 // Import your Meal model here
 import '../post.dart';
 import 'add_meal_to_list.dart';
-
+import '/controllers/fetch_controller.dart';
 class ChooseMealDialog extends StatefulWidget {
   const ChooseMealDialog({Key? key}) : super(key: key);
 
@@ -17,6 +18,9 @@ class _ChooseMealDialogState extends State<ChooseMealDialog> {
   late StreamController<Meal> _mealStreamController;
   late Stream<Meal> _mealStream;
 
+final controller = FetchController();
+
+
   @override
   void initState() {
     super.initState();
@@ -24,29 +28,13 @@ class _ChooseMealDialogState extends State<ChooseMealDialog> {
     _mealStream = _mealStreamController.stream;
     _fetchNextMeal();
   }
-
   Future<void> _fetchNextMeal() async {
-    try {
-      final meal = await fetchMeals();
-      _mealStreamController.add(meal);
-    } catch (e) {
-      _mealStreamController.addError('Failed to fetch meal: $e');
-    }
+    await controller.fetchNextMeal(_mealStreamController);
   }
 
-  Future<Meal> fetchMeals() async {
-    final url = Uri.parse('https://www.themealdb.com/api/json/v1/1/random.php');
-    final response = await http.get(url);
 
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      List<dynamic> mealsJson = data['meals'];
-      List<Meal> meals = mealsJson.map((mealJson) => Meal.fromJson(mealJson)).toList();
-      return meals[0];
-    } else {
-      throw Exception('Failed to load meal');
-    }
-  }
+
+ 
 
   @override
   void dispose() {

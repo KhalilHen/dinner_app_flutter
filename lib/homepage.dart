@@ -11,7 +11,6 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
 import 'controllers/fetch_controller.dart';  // Import the fetch controller
-
 import 'controllers/auth_controller.dart';
 
 class Homepage extends StatelessWidget {
@@ -37,21 +36,26 @@ class HomeScreen extends StatefulWidget {
   int _currentIndex = 0;
   late Future<Meal> _futureMeal; // Define Future as a state variable
 
-  final Controller _fetchController = Controller(); // Create an instance of FetchController
+
+
+  final controller = FetchController();
+
 
 
   //Too get the function inside auth controller file
-// AuthController authController = AuthController();
-
   final AuthController authController = AuthController();
-  User? user; 
+
+  // User? user; 
+//I keep it for now like this:
+      final user = FirebaseAuth.instance.currentUser;
+
 
 
 
   @override
   void initState() {
     super.initState();
-    _futureMeal = _fetchController.fetchMeals(); // Initialize Future in initState
+    _futureMeal = controller.fetchMeals(); // Initialize Future in initState
   }
 
  
