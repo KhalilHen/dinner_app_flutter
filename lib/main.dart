@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'homepage.dart';
 import 'list.dart';
 import 'sign_up.dart';
+import 'controllers/auth_controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -42,36 +43,15 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+
+
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool showPassword = false;
 
-  Future<void> _login() async {
-    if (_key.currentState!.validate()) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
-        );
+  //Too get the function inside auth controller file
+  final AuthController authController = AuthController();
 
-        if (userCredential.user != null) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const Homepage(),
-            ),
-          );
-        } else {
-          print('Oops there went something wrong');
-        }
-      } catch (e) {
-        print('Login failed: $e');
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Login failed: $e')),
-        );
-      }
-    }
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -108,13 +88,14 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
               Form(
-                key: _key,
-                child: Container(
+          key: authController.key,
+
+               child: Container(
                   width: MediaQuery.of(context).size.width * 0.7,
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: emailController,
+                        controller: authController.emailController,
                         validator: validateEmail,
                         decoration: const InputDecoration(
                           labelText: 'Enter email',
@@ -125,7 +106,7 @@ class _MainScreenState extends State<MainScreen> {
                         padding: EdgeInsets.only(bottom: 20),
                       ),
                       TextFormField(
-                        controller: passwordController,
+                        controller:   authController.passwordController,
                         validator: validatePassword,
                         obscureText: !showPassword,
                         decoration: InputDecoration(
@@ -170,7 +151,11 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => signUp
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: _login,
+                      onPressed: () {
+                        
+                                          authController.login(context);
+
+                      },
                       style: ButtonStyle(
                         backgroundColor: WidgetStateProperty.all(const  Color(0xFF6B8E23)), // Olive green
 

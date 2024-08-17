@@ -1,5 +1,6 @@
 import 'package:dinnerapp/choose_meal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 // import 'choose_meal.dart';
 // import 'package:beta_app/pages/choosemeal.dart';
 import 'list.dart';
@@ -9,7 +10,9 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'main.dart';
-import 'dialogs/controllers.dart/fetch_controller.dart';  // Import the fetch controller
+import 'controllers/fetch_controller.dart';  // Import the fetch controller
+
+import 'controllers/auth_controller.dart';
 
 class Homepage extends StatelessWidget {
   const Homepage({Key? key});
@@ -33,9 +36,17 @@ class HomeScreen extends StatefulWidget {
 }class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 0;
   late Future<Meal> _futureMeal; // Define Future as a state variable
-    final user = FirebaseAuth.instance.currentUser;
 
   final Controller _fetchController = Controller(); // Create an instance of FetchController
+
+
+  //Too get the function inside auth controller file
+// AuthController authController = AuthController();
+
+  final AuthController authController = AuthController();
+  User? user; 
+
+
 
   @override
   void initState() {
@@ -43,18 +54,10 @@ class HomeScreen extends StatefulWidget {
     _futureMeal = _fetchController.fetchMeals(); // Initialize Future in initState
   }
 
-  void logOut() async {
-
-    await FirebaseAuth.instance.signOut();
-  Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => Login(),
-                ),
-              );
-  }
-  
+ 
   @override
   Widget build(BuildContext context) {
+
     final primaryBackgroundColor = Theme.of(context).primaryColor;
     return Scaffold(
       backgroundColor: primaryBackgroundColor,
@@ -81,8 +84,8 @@ class HomeScreen extends StatefulWidget {
           IconButton(
 
             onPressed: () {
-            //  Log out logic
-            logOut();
+            
+            authController.signOut(context);
             },
             icon: Icon(Icons.logout ),
           ),
