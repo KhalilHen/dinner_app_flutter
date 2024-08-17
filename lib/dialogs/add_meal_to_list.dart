@@ -25,6 +25,7 @@ late String mealId;
 //TODO Later turn this into a seperate file and call the method from that file
 //TODO And other files where this is used
     final user = FirebaseAuth.instance.currentUser;
+  List<DropdownMenuItem<String>> _dropdownItems = [];
 
   @override
 void initState() {
@@ -32,16 +33,36 @@ void initState() {
   super.initState();
     mealName = widget.name;
     mealId = widget.idMeal;
+        retrieveUsersList();
+
 }
 
 
-void retrieveUsersList() async {
+ Future<void> retrieveUsersList() async {
 
     var user = FirebaseAuth.instance.currentUser;
-    var userLinkedList = FirebaseFirestore.instance.collection('list').where('userId', isEqualTo: user!.uid).get();
+    var userLinkedList = FirebaseFirestore.instance.collection('list').where('userId', isEqualTo: user!.uid);
+
+var querySnapshot = await userLinkedList.get();
+List<DropdownMenuItem<String>> items = [];
 
 
-    print('User List: $userLinkedList');
+for (var queryDocumentSnapshot in querySnapshot.docs) {
+
+var data  = queryDocumentSnapshot.data();
+var title = data   ['title'];
+items.add(DropdownMenuItem(
+  child: Text(title),
+  value: title,
+));
+
+
+    setState(() {
+      _dropdownItems = items;
+    });
+}
+
+    // print('User List: $userLinkedList');
 
 
 }
@@ -76,29 +97,33 @@ print("MealName${widget.name}");
 
           
           child: DropdownButtonFormField(
-
-            items: [
-              DropdownMenuItem(
-                
-                child: Text('Breakfast'),
-                value: 'Breakfast',
-              ),
-              DropdownMenuItem(
-                child: Text('Lunch'),
-                value: 'Lunch',
-              ),
-              DropdownMenuItem(
-                child: Text('Dinner'),
-                value: 'Dinner',
-              ),
-            ],   
-            // controller: _listNameController,
-       onChanged: (value) {
-
-       },
-          ),
           
+                        items: _dropdownItems,
+
+
+          hint: Text('Select a list'),
+          onChanged: (value) {
+
+          } ,
+
+    selectedItemBuilder: (BuildContext context) {
+      return _dropdownItems.map<Widget>((item) {
+        return Text(item.value!);
+      }).toList();
+    },
+    onSaved: (newValue) {
+
+      print(newValue);
+
+    },
+          ),
+
+         
         ),
+       
+          
+          
+        
         ],
       ),
       actions: <Widget>[
@@ -111,7 +136,7 @@ print("MealName${widget.name}");
         TextButton(
           onPressed: () {
             // Add logic to handle adding the meal to the list here
-            Navigator.of(context).pop();
+    
           },
           child: Text('Add'),
         ),
