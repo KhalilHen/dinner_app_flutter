@@ -20,7 +20,7 @@ class _AddMealDialogState extends State<AddMealDialog> {
   final _listNameController = TextEditingController();
 late  String mealName;
 late String mealId;
-
+String? selectedList;
 
 //TODO Later turn this into a seperate file and call the method from that file
 //TODO And other files where this is used
@@ -102,20 +102,21 @@ print("MealName${widget.name}");
 
 
           hint: Text('Select a list'),
-          onChanged: (value) {
-
-          } ,
+          
 
     selectedItemBuilder: (BuildContext context) {
       return _dropdownItems.map<Widget>((item) {
         return Text(item.value!);
       }).toList();
     },
-    onSaved: (newValue) {
+      onChanged: (String?  newValue) {
+        setState(() { 
+          selectedList = newValue; 
 
-      print(newValue);
+        });
+      },
 
-    },
+        
           ),
 
          
@@ -135,6 +136,23 @@ print("MealName${widget.name}");
         ),
         TextButton(
           onPressed: () {
+            if (selectedList != null) {
+
+
+
+                //TODO Later turn this into a fetch meal So it fetch every information based on the id of meal
+                //TODO Or just sent the description and everything within this file
+             
+
+     FirebaseFirestore.instance.collection('lists').where(isEqualTo: selectedList.id)({
+                'mealId': mealId,
+                'mealName': mealName,
+              });
+              print('Selected List: $selectedList');
+              print('Meal ID: $mealId');
+              print('Meal Name: $mealName');
+            }
+
             // Add logic to handle adding the meal to the list here
     
           },
