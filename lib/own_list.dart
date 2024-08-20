@@ -18,7 +18,7 @@ class OwnListPage extends StatefulWidget {
 class _OwnListPageState extends State<OwnListPage> {
 final db = FirebaseFirestore.instance;
 var docId;
-  
+  var itemId;
 
 // TODO Fix this laterwy.size.width;
 
@@ -55,6 +55,13 @@ catch (e) {
     return db.collection('list').doc(widget.docId).collection('mealItem').snapshots();
   }
 
+void editMeal() async {
+
+ var itemCollection = FirebaseFirestore.instance.collection('mealItem').doc(itemId).get();
+  print(itemCollection);
+
+    print(itemId);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +71,7 @@ catch (e) {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text(
-          // '{$list.title}',
+            // '{$list.title}',
           'test',
           style: TextStyle(color: Colors.black),
         ),
@@ -129,14 +136,46 @@ child: ListTile(
                     contentPadding: EdgeInsets.all(15.0),
      dense: true,
     
+  
     // color: Colors.white,
     tileColor: Colors.white,
       subtitle: Text(data['mealDescription'] ?? 'No description'),
-      trailing: IconButton(
-        icon: Icon(Icons.delete),
-        onPressed: () {
-          db.collection('list').doc(widget.docId).collection('mealItem').doc(doc.id).delete();
-        },
+      
+      trailing: Wrap(
+
+      
+        spacing: 12,
+        children: <Widget>  [
+// Text(data['mealId']),
+// Text('data: {$data  }'),
+
+ IconButton(onPressed: () {
+print('data: {$data  }');
+// editMeal( );
+        }, icon: Icon(Icons.edit),),
+
+
+
+IconButton(
+          icon: Icon(Icons.delete),
+          onPressed: () {
+            db.collection('list').doc(widget.docId).collection('mealItem').doc(doc.id).delete();
+          },
+        ),
+       
+        // IconButton(
+        //   icon: Icon(Icons.edit),
+        //   onPressed: () {
+        //     showDialog(
+        //       context: context,
+        //       builder: (context) {
+        //         return CreateListItemDialog(docId: widget.docId, doc: doc);
+        //       },
+        //     );
+        //   },
+        // ),
+
+        ] 
       ),
       onTap: () {
     

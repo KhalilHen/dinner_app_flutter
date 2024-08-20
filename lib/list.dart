@@ -20,6 +20,10 @@ class _ListPageState extends State<ListPage> {
 final db = FirebaseFirestore.instance;
 var  docId;
     // final mediaQuery = MediaQuery.of(context);
+final UserId = FirebaseAuth.instance.currentUser!.uid;
+
+    final User = FirebaseAuth.instance.currentUser;
+
 
 // TODO Fix this later
     // final screenWidth = mediaQuery.size.width;
@@ -28,7 +32,8 @@ var  docId;
 
 
 Stream<QuerySnapshot<Map<String, dynamic>>>  retrieveList()  {
- return db.collection('list').snapshots();
+ return db.collection('list').where('userId',  isEqualTo: UserId).snapshots();
+
 
 
 }
@@ -72,7 +77,14 @@ Stream<QuerySnapshot<Map<String, dynamic>>>  retrieveList()  {
         stream: retrieveList(),
         builder: (context, snapshot) {
           docId = snapshot.data!.docs[0].id;
+
+          //TODO Work later on here error handeling.
+          if(snapshot.hasData && snapshot.data!.docs.isEmpty) 
+              return Text('error: There  are no list(s) avaibel');
+
+          
           if (snapshot.hasError) return Text('Error: ${snapshot.error}');
+        
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
