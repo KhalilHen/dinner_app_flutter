@@ -4,6 +4,19 @@ import 'homepage.dart';
 
 import './dialogs/choose_meal_dialog.dart';
 import 'list.dart';
+
+
+import '/controllers/fetch_controller.dart';
+
+
+import './dialogs/add_meal_to_list.dart';
+
+
+import 'dart:async';
+import 'package:carousel_slider/carousel_slider.dart';
+
+
+
 class ChooseMealPage extends StatefulWidget {
   const ChooseMealPage({Key? key,
 
@@ -15,17 +28,46 @@ class ChooseMealPage extends StatefulWidget {
 }
 
 class _ChooseMealPageState extends State<ChooseMealPage> {
-  int _currentIndex = 0;
- var  dinnermeal = [];
+  int _currentIndex = 2;
+
+  late StreamController<Meal> _mealStreamController;
+
+ late Stream<Meal> _mealStream;
+
+ final controller = FetchController();
 
 
 
+@override
+  void initState() {
+    super.initState();
+    _mealStreamController = StreamController<Meal>();
+    _mealStream = _mealStreamController.stream;
+    _fetchNextMeal();
+  }
+  Future<void> _fetchNextMeal() async {
+    await controller.fetchNextMeal(_mealStreamController);
+  }
 
+
+
+ 
+
+  @override
+  void dispose() {
+    _mealStreamController.close();
+    super.dispose();
+  }
+  
 
 
   @override
   Widget build(BuildContext context) {
     final primaryBackgroundColor = Color(0xFFE0CDB4);
+
+
+
+  
 
     return Scaffold(
       backgroundColor: primaryBackgroundColor,
@@ -79,8 +121,41 @@ child: Column(
   crossAxisAlignment: CrossAxisAlignment.center,
 children: [
 
-
-
+       StreamBuilder<Meal>(
+        stream: _mealStream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return Center(child: Text('No meal available'));
+          } else {
+            final meal = snapshot.data!;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(meal.idMeal),
+                Text(meal.strMeal),
+                Text('Category: ${meal.strCategory}'),
+                Image.network(meal.strMealThumb),
+                ElevatedButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {  
+                        return AddMealDialog(idMeal: meal.idMeal, name: meal.strMeal);
+                      
+                      },
+                    );
+                  },
+                  child: Text('Pick'),
+                ),
+              ],
+            );
+          }
+        },
+      ),
 
 ElevatedButton( onPressed: () {
   
@@ -120,7 +195,7 @@ TextStyle(
           ),
 
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.grey,
+        backgroundColor: Colors.grey, 
         currentIndex: _currentIndex,
         onTap: (index) {
           setState(() {

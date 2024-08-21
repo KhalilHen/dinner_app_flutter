@@ -1,9 +1,11 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dinnerapp/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
-// Import your Meal model here
+
+
 import '../post.dart';
 import 'add_meal_to_list.dart';
 import '/controllers/fetch_controller.dart';
@@ -83,7 +85,11 @@ final controller = FetchController();
       actions: [
         Row(
           children: [
+
+            CarouselSlider(items:  options: options),
             ElevatedButton(
+
+
               onPressed: () {
                 Navigator.of(context).pop();
               },
