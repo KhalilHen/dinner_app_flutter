@@ -58,7 +58,12 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
     _mealStreamController.close();
     super.dispose();
   }
-  
+
+
+
+
+    CarouselSliderController buttonCarouselController = CarouselSliderController();
+
 
 
   @override
@@ -103,95 +108,167 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
           ),
         ],
       ),
-          body: Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-           width: MediaQuery.of(context).size.width * 0.9,
-child:  Column(
-  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  crossAxisAlignment: CrossAxisAlignment.center,
-  children: [
+          body: SingleChildScrollView(
+            
+                        scrollDirection: Axis.vertical,
 
-    Text('Choose Meal Page', style: TextStyle(fontSize: 20),),
-
-
-  Container(
-    height: MediaQuery.of(context).size.height * 0.2,
-child: Column(
- mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  crossAxisAlignment: CrossAxisAlignment.center,
-children: [
-
-       StreamBuilder<Meal>(
-        stream: _mealStream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return Center(child: Text('No meal available'));
-          } else {
-            final meal = snapshot.data!;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
+          
+          
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.9,
+             width: MediaQuery.of(context).size.width * 0.9,
+            child:  Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(meal.idMeal),
-                Text(meal.strMeal),
-                Text('Category: ${meal.strCategory}'),
-                Image.network(meal.strMealThumb),
-                ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {  
-                        return AddMealDialog(idMeal: meal.idMeal, name: meal.strMeal);
-                      
-                      },
-                    );
-                  },
-                  child: Text('Pick'),
-                ),
-              ],
-            );
-          }
-        },
-      ),
+            
+                Text('Choose Meal Page', style: TextStyle(fontSize: 20),),
+            
+            
+              Container(
+                height: MediaQuery.of(context).size.height * 0.5,
+            child: Column(
+             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+            
+                   StreamBuilder<Meal>(
+                    stream: _mealStream,
+                    builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData) {
+              return Center(child: Text('No meal available'));
+            } else {
+              final meal = snapshot.data!;
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                // mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(meal.idMeal),
+                  Text(meal.strMeal),
+                  Text('Category: ${meal.strCategory}'),
 
-ElevatedButton( onPressed: () {
-  
-  
- showDialog(context: context, builder: (context) {
-
-return ChooseMealDialog();
-
- } ); 
-},
-
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                       children: [
+                          Image.network(
+                                                height: 250,
     
+                            meal.strMealThumb,
+                            
+                            ),
+ElevatedButton(onPressed: null, child: Text('→'), )
+                       
+                       ]    ,       
 
-                      style: ButtonStyle(
-                       backgroundColor: MaterialStateProperty.all(Colors.green),
-                    ),
- child: Text('Click here to choose a meal', 
-style: 
-TextStyle(               
-   color: Colors.black,
-  
-
-),
-
-)),
+                  ),
 
 
-],
 
-),
 
-  )
+                  // Image.network(meal.strMealThumb  
+                
 
-  ],
-),
 
+// CarouselSlider(
+//         items: child,
+//         carouselController: buttonCarouselController,
+//         options: CarouselOptions(
+//           autoPlay: false,
+//           enlargeCenterPage: true,
+//           viewportFraction: 0.9,
+//           aspectRatio: 2.0,
+//           initialPage: 2,
+//         ),
+      
+      
+//       ),
+      
+
+  // RaisedButton(
+  //       onPressed: () => buttonCarouselController.nextPage(
+  //           duration: Duration(milliseconds: 300), curve: Curves.linear),
+  //       child: Text('→'),
+  //     ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment:  CrossAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {  
+                          return AddMealDialog(idMeal: meal.idMeal, name: meal.strMeal);
+                        
+                        },
+                      );
+                    },
+                    child: Text('Pick'),
+                  ),
+            //User can go to the next meal through this button or the  arrow at the image
+                  ElevatedButton(onPressed:  () {
+            
+                                    _fetchNextMeal();
+            
+                  }, child: Text('Next Meal'))
+            ],
+            
+                    
+                  ),
+                  
+            
+                  
+            
+                ],
+              );
+            }
+                    },
+            
+            
+            
+                  ),
+            
+            ElevatedButton( onPressed: () {
+              
+              
+             showDialog(context: context, builder: (context) {
+            
+            return ChooseMealDialog();
+            
+             } ); 
+            },
+            
+                
+            
+                        style: ButtonStyle(
+                         backgroundColor: MaterialStateProperty.all(Colors.green),
+                      ),
+             child: Text('Click here to choose a meal', 
+            style: 
+            TextStyle(               
+               color: Colors.black,
+              
+            
+            ),
+            
+            )),
+            
+            
+            ],
+            
+            ),
+            
+              )
+            
+              ],
+            ),
+            
+            ),
           ),
 
       bottomNavigationBar: BottomNavigationBar(

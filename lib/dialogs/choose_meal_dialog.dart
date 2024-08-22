@@ -86,7 +86,6 @@ final controller = FetchController();
         Row(
           children: [
 
-            CarouselSlider(items:  options: options),
             ElevatedButton(
 
 
