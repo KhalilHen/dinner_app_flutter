@@ -139,9 +139,14 @@ class _MainScreenState extends State<MainScreen> {
 Navigator.push(context, MaterialPageRoute(builder: (context) => signUp
 ()));
                       },
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(Colors.grey.shade400),
-                        padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
+                          style: ElevatedButton.styleFrom(
+                        // backgroundColor: WidgetStateProperty.all(Colors.grey.shade400),
+                        // padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
+                       backgroundColor: Color(0xFF28A745), // Green background color
+    foregroundColor: Colors.white, 
+                   
+                  //  padding: Padding(padding: EdgeInsets.all(16)),
+                  
                       ),
                       child: const Text(
                         'Create account',
@@ -156,10 +161,14 @@ Navigator.push(context, MaterialPageRoute(builder: (context) => signUp
                                           authController.login(context);
 
                       },
-                      style: ButtonStyle(
-                        backgroundColor: WidgetStateProperty.all(const  Color(0xFF6B8E23)), // Olive green
+                      style: ElevatedButton.styleFrom(
+                        // backgroundColor: WidgetStateProperty.all(const  Color(0xFF6B8E23)), // Olive green
+// color:  Color(#28a745),
 
-                        padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
+          backgroundColor: Color(0xFF007BFF),
+          // foregroundColor: 
+
+                        // padding: WidgetStateProperty.all(const EdgeInsets.all(16.0)),
                       ),
                       child: const Text(
                         'Login',
