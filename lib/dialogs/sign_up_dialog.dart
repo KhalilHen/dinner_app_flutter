@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dinnerapp/main.dart';
 import 'package:flutter/material.dart';
 
 class SignUpDialog extends StatefulWidget {
@@ -56,11 +57,21 @@ void  createUser() async {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Successfully signed up')),
                 );
+
+  //sent the user to login after creating succesfully a account
+                   Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const Login(),
+                    ),
+                  );
+
               }).catchError((error) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('Failed to sign up: $error')),
                 );
               });
+
+
             }
 }
 

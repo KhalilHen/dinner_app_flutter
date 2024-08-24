@@ -16,7 +16,7 @@ class ListPage extends StatefulWidget {
 }
 
 class _ListPageState extends State<ListPage> {
-  int _currentIndex = 1;
+  int _currentIndex = 2;
 final db = FirebaseFirestore.instance;
 var  docId;
     // final mediaQuery = MediaQuery.of(context);
@@ -79,16 +79,47 @@ Stream<QuerySnapshot<Map<String, dynamic>>>  retrieveList()  {
           docId = snapshot.data!.docs[0].id;
 
           //TODO Work later on here error handeling.
-          if(snapshot.hasData && snapshot.data!.docs.isEmpty) 
-              return Text('error: There  are no list(s) avaibel');
+       if (snapshot.hasError) {
+      return Center(child: Text('Error: ${snapshot.error}'));
+    }
 
-          
-          if (snapshot.hasError) return Text('Error: ${snapshot.error}');
-        
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasData) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+
+//Doesn't work 
+    if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+
+
+
+        return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('You have no lists.'),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                // Show the dialog to create a new list
+                showDialog(
+                  context: context,
+                  builder: (context) => CreateListDialog(),
+                );
+              },
+              child: Text('Create New List'),
+            ),
+          ],
+        ),
+      );
+    }
+
+
+    // Check if the list is empty
+    if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
+      return Center(child: Text('You have no lists. Please create one.'));
+    }
+          if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {  
             final docs = snapshot.data!.docs;
             return GridView.builder(
               itemCount: docs.length,
@@ -139,12 +170,18 @@ mainAxisAlignment: MainAxisAlignment.start,
   
   
   ),
-    Text(
-                    'ID: ${doc.id}',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      color: Colors.grey,
-                    ),
+    // Text(
+    //                 'ID: ${doc.id}',
+    //                 style: TextStyle(
+    //                   fontSize: 12.0,
+    //                   color: Colors.grey,
+    //                 ),
+    // ),
+    IconButton(
+      icon: Icon(Icons.delete),
+      onPressed: () {
+        db.collection('list').doc(docId).delete();
+      },
     ),
 
   

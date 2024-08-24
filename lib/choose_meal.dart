@@ -28,7 +28,7 @@ class ChooseMealPage extends StatefulWidget {
 }
 
 class _ChooseMealPageState extends State<ChooseMealPage> {
-  int _currentIndex = 2;
+  int _currentIndex = 1;
 
   late StreamController<Meal> _mealStreamController;
 
@@ -161,9 +161,10 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
                             meal.strMealThumb,
                             
                             ),
-ElevatedButton(onPressed: null, child: Text('→'), )
+                       IconButton(onPressed: _fetchNextMeal, icon: Icon(Icons.arrow_forward_ios_rounded), color: Colors.black, iconSize: 50,),
                        
-                       ]    ,       
+                        ],                       
+                             
 
                   ),
 
