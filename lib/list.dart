@@ -7,7 +7,7 @@ import './dialogs/create_list_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'own_list.dart ';
-
+import 'controllers/auth_controller.dart';
 class ListPage extends StatefulWidget {
   const ListPage({Key? key}) : super(key: key,);
 
@@ -23,6 +23,10 @@ var  docId;
 final UserId = FirebaseAuth.instance.currentUser!.uid;
 
     final User = FirebaseAuth.instance.currentUser;
+
+
+
+  final AuthController authController = AuthController();
 
 
 // TODO Fix this later
@@ -64,10 +68,12 @@ Stream<QuerySnapshot<Map<String, dynamic>>>  retrieveList()  {
             icon: Icon(Icons.help),
           ),
 
-             IconButton(
+          
+          IconButton(
 
             onPressed: () {
-            //  Log out logic
+            
+            authController.signOut(context);
             },
             icon: Icon(Icons.logout ),
           ),

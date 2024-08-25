@@ -102,7 +102,8 @@ class _AddMealDialogState extends State<AddMealDialog> {
 
               FirebaseFirestore.instance.collection('list').doc(selectedListId).collection('mealItem').add({
                 'mealId': mealId,
-                'mealName': mealName,
+                'mealname': mealName,
+                
               });
 
               print('Selected List Name: $selectedList');

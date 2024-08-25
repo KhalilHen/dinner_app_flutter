@@ -16,7 +16,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 
 
-
+import 'controllers/auth_controller.dart';
 class ChooseMealPage extends StatefulWidget {
   const ChooseMealPage({Key? key,
 
@@ -37,6 +37,7 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
  final controller = FetchController();
 
 
+  final AuthController authController = AuthController();
 
 @override
   void initState() {
@@ -99,10 +100,11 @@ class _ChooseMealPageState extends State<ChooseMealPage> {
             },
             icon: Icon(Icons.help),
           ),
-             IconButton(
+           IconButton(
 
             onPressed: () {
-            //  Log out logic
+            
+            authController.signOut(context);
             },
             icon: Icon(Icons.logout ),
           ),

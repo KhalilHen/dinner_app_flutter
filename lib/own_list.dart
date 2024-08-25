@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'choose_meal.dart';
 import 'firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import './dialogs/create_list_dialog.dart';
+import './dialogs/edit_list_item.dart';
 
 class OwnListPage extends StatefulWidget {
   // var docId;
@@ -19,8 +20,27 @@ class _OwnListPageState extends State<OwnListPage> {
 final db = FirebaseFirestore.instance;
 var docId;
   var itemId;
+  String? listTitle;
 
-// TODO Fix this laterwy.size.width;
+  @override
+    void initState() {
+      super.initState();
+     
+      fetchListTitle();
+    }
+
+
+
+void fetchListTitle() async {
+  var doc = await db.collection('list').doc(widget.docId).get();
+  var data = doc.data();
+  setState(() {
+    listTitle = data!['title'];
+  });
+}
+
+
+
 
 void retrieveId() async {
     print('Document ID: ${widget.docId}');
@@ -55,13 +75,13 @@ catch (e) {
     return db.collection('list').doc(widget.docId).collection('mealItem').snapshots();
   }
 
-void editMeal() async {
+// void editMeal() async {
 
- var itemCollection = FirebaseFirestore.instance.collection('mealItem').doc(itemId).get();
-  print(itemCollection);
+//  var itemCollection = FirebaseFirestore.instance.collection('mealItem').doc(itemId).get();
+//   print(itemCollection);
 
-    print(itemId);
-}
+//     print(itemId);
+// }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +91,15 @@ void editMeal() async {
       appBar: AppBar(
         backgroundColor: Colors.grey,
         title: Text(
+
             // '{$list.title}',
-          'test',
+          // 'test',
+          // 'Your list(s)',
+
+
+
+          listTitle ?? 'No title'
+          ,
           style: TextStyle(color: Colors.black),
         ),
         actions: [
@@ -150,9 +177,32 @@ child: ListTile(
 // Text('data: {$data  }'),
 
  IconButton(onPressed: () {
-print('data: {$data  }');
 // editMeal( );
-        }, icon: Icon(Icons.edit),),
+
+            showDialog(
+              context: context,
+           
+           builder: (context) {
+
+            return EditListItemDialog(
+              
+              
+    docId: widget.docId,
+                    itemId: doc.id,
+                    mealName: data['mealname'] ?? '',
+                    mealDescription: data['mealDescription'] ?? '',
+                    mealImage: data['mealImage'] ?? '',              
+              
+              );
+          // return EditListItemDialog();
+
+           }
+              // builder: (context) {
+              //   return CreateListItemDialog(docId: widget.docId, doc: doc);
+              // },
+ 
+ );},
+         icon: Icon(Icons.edit),),
 
 
 
@@ -163,17 +213,7 @@ IconButton(
           },
         ),
        
-        // IconButton(
-        //   icon: Icon(Icons.edit),
-        //   onPressed: () {
-        //     showDialog(
-        //       context: context,
-        //       builder: (context) {
-        //         return CreateListItemDialog(docId: widget.docId, doc: doc);
-        //       },
-        //     );
-        //   },
-        // ),
+
 
         ] 
       ),
