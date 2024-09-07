@@ -19,4 +19,4 @@ or make your  own account.
 
 But you can also directly download the  mobile APK version.
 
-[Click to donwload the apk] ()
+[Click to donwload the apk] (https://drive.google.com/file/d/1thKOHOO1twvvjJbiw81XDi0fXfW27cwH/view?usp=drive_link)
